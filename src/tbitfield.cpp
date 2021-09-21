@@ -15,9 +15,9 @@ TBitField::TBitField(int len)
   if(len < 0 )
     throw string("Incorrect lenght of bit field")
   BitLen = len;
-  MemLen = len / (sizeof(TELEM)*8);
-  pMem = new TELEM[BitLen];
-  for(int i = 0; i < BitLen; i++){
+  MemLen = len / (sizeof(TELEM)*8) + 1;
+  pMem = new TELEM[MemLen];
+  for(int i = 0; i < MemLen; i++){
     pMem[i] = 0;
   }
 }
@@ -26,7 +26,7 @@ TBitField::TBitField(const TBitField &bf) // конструктор копиро
 {
   BitLen = bf.BitLen;
   MemLen = bf.MemLen;
-  pMem = new TELEM[BitLen];
+  pMem = new TELEM[MemLen];
   for(int i - 0; i < MemLen; i++){
     pMem[i] = bf.pMem[i];
   }
@@ -41,7 +41,7 @@ int TBitField::GetMemIndex(const int n) const // индекс Мем для би
 {
   if ((n < 0) || (n > BitLen)) 
     throw string("Incorrect index");
-  return n / (sizeof(TELEM)*8);
+  return n / (sizeof(TELEM)*8) + 1;
 }
 
 TELEM TBitField::GetMemMask(const int n) const // битовая маска для бита n
