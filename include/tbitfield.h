@@ -13,6 +13,11 @@
 using namespace std;
 
 typedef unsigned int TELEM;
+const int bitsPerByte = 8;
+enum EXCEPTION
+{
+	outOfRange
+};
 
 class TBitField
 {
