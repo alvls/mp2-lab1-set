@@ -6,7 +6,6 @@
 // Битовое поле
 
 #include "tbitfield.h"
-#include <string>
 
 // Fake variables used as placeholders in tests
 static const int FAKE_INT = -1;
@@ -147,25 +146,21 @@ TBitField TBitField::operator~(void) // отрицание
 
 istream &operator>>(istream &istr, TBitField &bf) // ввод
 {
-  string str;
-  istr >> str;
-  if (str.length() != bf.BitLen)
-      throw FAKE_INT;
-  for (int i = 0; i < bf.BitLen; i++)
-      if (str[i] == '1')
-          bf.SetBit(i);
-      else if (str[i] == '0')
-          bf.ClrBit(i);
-      else
-          throw FAKE_INT;
+    char* enter = new char[bf.GetLength()];
+    istr >> enter;
+    for (int i = 0; i < bf.GetLength(); i++)
+        if (enter[i] == '1')
+            bf.SetBit(i);
+        else if (enter[i] == '0')
+            bf.ClrBit(i);
+        else
+            throw FAKE_INT;
     return istr;
 }
 
 ostream &operator<<(ostream &ostr, const TBitField &bf) // вывод
 {
-    string str;
     for (int i = 0; i < bf.BitLen; i++)
-        str += bf.GetBit(i).to_string();
-    ostr << str;
+        ostr << bf.GetBit(i);
     return ostr;
 }
