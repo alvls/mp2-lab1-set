@@ -22,7 +22,7 @@ TSet::TSet(const TSet &s) : BitField(s.BitField), MaxPower(s.MaxPower)
 }
 
 // конструктор преобразования типа
-TSet::TSet(const TBitField &bf) : BitField(bf), MaxPower(bf.GetLength)
+TSet::TSet(const TBitField &bf) : BitField(bf), MaxPower(bf.GetLength())
 {
 }
 
@@ -71,9 +71,10 @@ int TSet::operator==(const TSet &s) const // сравнение
     return BitField == s.BitField;
 }
 
-int TSet::operator!=(const TSet &s) const // сравнение
+int TSet::operator!=(const TSet& s) const // сравнение
 {
     return BitField != s.BitField;
+}
 
 TSet TSet::operator+(const TSet &s) // объединение
 {   
@@ -88,7 +89,7 @@ TSet TSet::operator+(const int Elem) // объединение с элемент
         throw FAKE_INT;
     TBitField bf = BitField;
     bf.SetBit(Elem);
-    return Tset(bf);
+    return TSet(bf);
 }
 
 TSet TSet::operator-(const int Elem) // разность с элементом
@@ -97,7 +98,7 @@ TSet TSet::operator-(const int Elem) // разность с элементом
         throw FAKE_INT;
     TBitField bf = BitField;
     bf.ClrBit(Elem);
-    return Tset(bf);
+    return TSet(bf);
 }
 
 TSet TSet::operator*(const TSet &s) // пересечение
@@ -116,12 +117,12 @@ TSet TSet::operator~(void) // дополнение
 
 istream &operator>>(istream &istr, TSet &s) // ввод
 {
-    istr >> BitField;
+    istr >> s.BitField;
     return istr;
 }
 
 ostream& operator<<(ostream &ostr, const TSet &s) // вывод
 {
-    ostr << BitField;
+    ostr << s.BitField;
     return ostr;
 }
