@@ -7,14 +7,16 @@
 
 #include "tbitfield.h"
 static const int FAKE_INT = -1;
-// Fake variables used as placeholders in test
+// Fake variables used as пlaceholders in test
 TBitField::TBitField(int len)
 {
-    /*if (len < 0)
-        throw;*/
+    if (len < 0)
+        throw - 1;
     BitLen = len;
     MemLen = (BitLen - 1) / (sizeof(TELEM) * CHAR_BIT) + 1;
     pMem = new TELEM[MemLen];
+    for (int i = 0; i < MemLen; i++)
+        pMem[i] = 0;
 }
 
 TBitField::TBitField(const TBitField &bf): BitLen(bf.BitLen), MemLen(bf.MemLen) // конструктор копирования
@@ -31,7 +33,7 @@ TBitField::~TBitField()
 
 int TBitField::GetMemIndex(const int n) const // индекс Мем для бита n +
 {
-    if (n >= BitLen)
+    if (n > BitLen - 1 || n < 0)
         throw - 1;
     return ((n - 1) / (sizeof(TELEM) * CHAR_BIT));
 }
@@ -55,14 +57,11 @@ int TBitField::GetLength(void) const // получить длину (к-во б�
 
 void TBitField::SetBit(const int n) // установить бит +
 {
-    if (n < 0)
+    if (n < 0 || n>BitLen)
         throw - 1;
-    else
-        if (n > BitLen)
-            throw "Over Len\n";
     TELEM tmp;
     tmp = (1 << n);
-    pMem[n / (sizeof(TELEM) * CHAR_BIT) + 1] |= tmp;
+    pMem[n / (sizeof(TELEM) * CHAR_BIT)] |= tmp;
 }
 
 void TBitField::ClrBit(const int n) // очистить бит +
@@ -105,84 +104,139 @@ TBitField& TBitField::operator=(const TBitField &bf) // присваивание
 int TBitField::operator==(const TBitField &bf) const // сравнение +
 {
         if (bf.BitLen != BitLen)
-            throw false;
+            return 0;
         for (int i = 0; i < MemLen; i++)
             if (pMem[i] != bf.pMem[i])
-                return false;
-    return true;
+                return 0;
+    return 1;
 }
 
 int TBitField::operator!=(const TBitField &bf) const // сравнение +
 {
     if (bf.BitLen != BitLen)
-        throw true;
+        return 1;
     for (int i = 0; i < MemLen; i++)
         if (pMem[i] != bf.pMem[i])
-            return true;
-    return false;
+            return 1;
+    return 0;
 }
 
-TBitField TBitField::operator|(const TBitField &bf) // операция "или" +
+TBitField TBitField::operator|(const TBitField &bf) // операция "или"
 {
-    for (int i = 0; i < MemLen; i++)
-        pMem[i] |= bf.pMem[i];
-    return (*this);
+    int maxlen;
+    int memlen;
+    if (BitLen > bf.BitLen)
+    {
+        maxlen = BitLen;
+        memlen = bf.MemLen;
+    }
+    else
+    {
+        maxlen = bf.BitLen;
+        memlen = MemLen;
+    }
+    TBitField out(maxlen);
+    for (int i = 0; i < memlen; i++)
+    {
+        out.pMem[i] = bf.pMem[i] | pMem[i];
+    }
+    return out;
 }
 
-TBitField TBitField::operator&(const TBitField &bf) // операция "и" +
+TBitField TBitField::operator&(const TBitField &bf) // операция "и"
 {
-    for (int i = 0; i < MemLen; i++)
-        pMem[i] &= bf.pMem[i];
-    return (*this);
+    int maxlen;
+    int memlen;
+    if (BitLen > bf.BitLen)
+    {
+        maxlen = BitLen;
+        memlen = bf.MemLen;
+    }
+    else
+    {
+        maxlen = bf.BitLen;
+        memlen = MemLen;
+    }
+    TBitField out(maxlen);
+    for (int i = 0; i < memlen; i++) 
+    {
+        out.pMem[i] = bf.pMem[i] & pMem[i];
+    }
+    return out;
 }
 
-TBitField TBitField::operator~(void) // отрицание - ДОДЕЛАТЬ
+TBitField TBitField::operator~(void) // отрицание
 {
-    for (int i = 0; i < MemLen-1; i++)
-        pMem[i] = ~pMem[i];
-    /*TELEM masks[sizeof(TELEM) * CHAR_BIT];
-    for (int i = MemLen * sizeof(TELEM) * CHAR_BIT, int j = 0; i < BitLen; i++, j++)
-        masks[j] = GetMemMask(i);*/
-    return (*this);
+    TBitField out(*this);
+    for (int i = 0; i < BitLen; i++)
+        if (out.GetBit(i) > 0)
+            out.ClrBit(i);
+        else
+            out.SetBit(i);
+    return out;
 }
 
 // ввод/вывод
 
 istream &operator>>(istream &istr, TBitField &bf) // ввод 
 {
+    int max;
+    for (max = 0; _getch() != '\n'; max++)
+        ;
+    int* tmp;
+    tmp = new int[max];
+    for (int i = 0; i < max; i++)
+        tmp[i] = _getch();
+    delete[] bf.pMem;
+    bf.BitLen = max;
+    bf.MemLen = (bf.BitLen - 1) / (sizeof(TELEM) * CHAR_BIT) + 1;
+    bf.pMem = new TELEM[bf.MemLen];
+    for (int i = 0; i < max; i++)
+        if (tmp[i] > '0')
+            bf.SetBit(i);
+        else
+            bf.ClrBit(i);
     return istr;
 }
 
-ostream &operator<<(ostream &ostr, const TBitField &bf) // вывод - ПЕРЕДЕЛАТЬ
+ostream &operator<<(ostream &ostr, const TBitField &bf) // вывод
 {
     TELEM tmp; //чтобы беспрепятственно портить переменную
     TELEM deg_of_two;//для того чтобы понимать, есть ли в двоичной записи на этом месте 1 или нет
-    for (int i = 0; i < (bf.BitLen / (sizeof(TELEM) * CHAR_BIT)); i++)
+    int out;
+    for (int i = 0; i < bf.BitLen; i++)
     {
-        tmp = bf.pMem[i];
-        for (int j = 7; j > -1; j--)
-        {
-            deg_of_two = pow(2, j);
-            if ((tmp / deg_of_two) > 0)
-                ostr << 1;
-            else
-                ostr << 0;
-            tmp %= deg_of_two;
-        }
+        out = bf.GetBit(i);
+        ostr << out;
     }
-    const int ExtraBitLen = bf.BitLen % (sizeof(TELEM) * CHAR_BIT);
-    for (int i = 0; i < ExtraBitLen; i++)
-    {
-        tmp = bf.pMem[i];
-        for (int j = 7; j > -1; j--)
-        {
-            deg_of_two = pow(2, j);
-            if ((tmp / deg_of_two) > 0)
-                ostr << 1;
-            else
-                ostr << 0;
-            tmp %= deg_of_two;
-        }
-    }
+    ostr << '\n';
+    ////Если бы у меня не было волшебного GetBit()
+    //for (int i = 0; i < (bf.BitLen / (sizeof(TELEM) * CHAR_BIT)); i++)
+    //{
+    //    tmp = bf.pMem[i];
+    //    for (int j = 7; j > -1; j--)
+    //    {
+    //        deg_of_two = pow(2, j);
+    //        if ((tmp / deg_of_two) > 0)
+    //            ostr << 1;
+    //        else
+    //            ostr << 0;
+    //        tmp %= deg_of_two;
+    //    }
+    //}
+    //const int ExtraBitLen = bf.BitLen % (sizeof(TELEM) * CHAR_BIT);
+    //for (int i = 0; i < ExtraBitLen; i++)
+    //{
+    //    tmp = bf.pMem[i];
+    //    for (int j = 7; j > -1; j--)
+    //    {
+    //        deg_of_two = pow(2, j);
+    //        if ((tmp / deg_of_two) > 0)
+    //            ostr << 1;
+    //        else
+    //            ostr << 0;
+    //        tmp %= deg_of_two;
+    //    }
+    //}
     return ostr;
 }
