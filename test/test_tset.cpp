@@ -297,8 +297,9 @@ TEST(TSet, check_negation_operator)
 }
 TEST(TSet, can_do_sum_pipe)
 {
-  const int size = 4;
-  TSet set1(size), set2(size),set3(size), set4(size);
+  const int size1 = 4;
+  const int size2 = 5;
+  TSet set1(size1), set2(size1),set3(size2), set4(size2);
   // set1 = {1, 3}
   set1.InsElem(1);
   set1.InsElem(3);
@@ -306,4 +307,5 @@ TEST(TSet, can_do_sum_pipe)
   set3.InsElem(2);
   set4 = set2 + set3;
   EXPECT_EQ(set1 + set4, set1 + set2 + set3);
+  EXPECT_EQ(set4 + set1, set3 + set1 + set2);
 }

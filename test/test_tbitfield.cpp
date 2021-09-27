@@ -320,7 +320,7 @@ TEST(TBitField, double_clear_bit)
   EXPECT_EQ(bf1, bf2);
 }
 
-TEST(TBitField, can_do_sum_operator_pipe)
+TEST(TBitField, can_do_sum_pipe)
 {
   const int size1 = 4;
   const int size2 = 5;
