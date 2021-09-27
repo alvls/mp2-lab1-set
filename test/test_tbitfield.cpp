@@ -309,23 +309,28 @@ TEST(TBitField, bitfields_with_different_bits_are_not_equal)
 
   EXPECT_NE(bf1, bf2);
 }
+
 TEST(TBitField, double_clear_bit)
 {
   const int size = 1;
   TBitField bf1(size), bf2(size);
+  bf1.SetBit(0);
   bf1.ClrBit(0);
   bf1.ClrBit(0);
   EXPECT_EQ(bf1, bf2);
 }
-TEST(TBitField, double_clear_bit)
+
+TEST(TBitField, can_do_sum_operator_pipe)
 {
-  const int size = 4;
-  TBitField bf1(size), bf2(size), bf3(size), bf4(size);
+  const int size1 = 4;
+  const int size2 = 5;
+  TBitField bf1(size1), bf2(size2), bf3(size1), bf4(size2);
   bf1.SetBit(3);
   bf1.SetBit(0);
   bf2 = ~bf1;
   bf3.SetBit(3);
   bf4 = bf2 | bf3;
   EXPECT_EQ(bf1 | bf4, bf1 | bf2 | bf3);
-}
+  EXPECT_EQ(bf4 | bf1, bf3 | bf1 | bf2);
 
+}

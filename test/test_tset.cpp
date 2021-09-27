@@ -295,7 +295,7 @@ TEST(TSet, check_negation_operator)
 
   EXPECT_EQ(expSet, set1);
 }
-TEST(TSet, check_negation_operator)
+TEST(TSet, can_do_sum_pipe)
 {
   const int size = 4;
   TSet set1(size), set2(size),set3(size), set4(size);

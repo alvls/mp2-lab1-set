@@ -65,11 +65,8 @@ int TSet::operator!=(const TSet &s) const // сравнение
 
 TSet TSet::operator+(const TSet &s) // объединение
 {
-  if(this == &s){
-    return *this;
-  }
-  if(MaxPower >= s.MaxPower){
-    TSet out(*this);
+  if(MaxPower > s.MaxPower){
+    TSet out(MaxPower);
     out.BitField = BitField | s.BitField;
     return out;
   }

@@ -90,8 +90,8 @@ TBitField& TBitField::operator=(const TBitField &bf) // присваивание
   }
   BitLen = bf.BitLen;
   MemLen = bf.MemLen;
+  delete[] pMem;
   pMem = new TELEM [MemLen];
-  delete [] pMem;
   for(int i = 0; i < MemLen; i++){
    pMem[i] = bf.pMem[i]; 
   }
@@ -128,18 +128,16 @@ int TBitField::operator!=(const TBitField &bf) const // сравнение
 
 TBitField TBitField::operator|(const TBitField &bf) // операция "или"
 {
-  int len, maxBitlen, minBitlen;
+  int len, minBitlen;
   if (bf.BitLen < BitLen) {
       len = bf.MemLen;
-      maxBitlen = BitLen;
       minBitlen = bf.BitLen;
   }
   else {
       len = MemLen;
-      maxBitlen = bf.BitLen;
       minBitlen = BitLen;
   }
-  TBitField out(maxBitlen);
+  TBitField out(bf);
   for (int i = 0; i < len - 1; i++) {
       out.pMem[i] = bf.pMem[i] | pMem[i];
   }
