@@ -7,98 +7,160 @@
 
 #include "tset.h"
 
-// Fake variables used as placeholders in tests
-static const int FAKE_INT = -1;
-static TBitField FAKE_BITFIELD(1);
-static TSet FAKE_SET(1);
-
-TSet::TSet(int mp) : BitField(-1)
+TSet::TSet(int mp) : BitField(mp)
 {
+    MaxPower = mp;
 }
 
 // конструктор копирования
-TSet::TSet(const TSet &s) : BitField(-1)
+TSet::TSet(const TSet &s) : BitField(s.BitField)
 {
+    MaxPower = s.GetMaxPower();
 }
 
 // конструктор преобразования типа
-TSet::TSet(const TBitField &bf) : BitField(-1)
+TSet::TSet(const TBitField &bf) : BitField(bf)
 {
+    MaxPower = bf.GetLength();
 }
 
 TSet::operator TBitField()
 {
-    return FAKE_BITFIELD;
+    return BitField;
 }
 
 int TSet::GetMaxPower(void) const // получить макс. к-во эл-тов
 {
-    return FAKE_INT;
+    return MaxPower;
 }
 
 int TSet::IsMember(const int Elem) const // элемент множества?
 {
-    return FAKE_INT;
+    if ((Elem < MaxPower) & (Elem >= 0))
+    {
+        if (BitField.GetBit(Elem) == 1)
+        {
+            return 1;
+        }
+        else
+        {
+            return 0;
+        }
+    }
+    else
+    {
+        throw "Bad value of the variable";
+    }
 }
 
 void TSet::InsElem(const int Elem) // включение элемента множества
 {
+    if ((Elem < MaxPower) & (Elem >= 0))
+    {
+        BitField.SetBit(Elem);
+    }
+    else
+    {
+        throw "Bad value of the variable";
+    }
 }
 
 void TSet::DelElem(const int Elem) // исключение элемента множества
 {
+    if ((Elem < MaxPower) & (Elem >= 0))
+    {
+        BitField.ClrBit(Elem);
+    }
+    else
+    {
+        throw "Negative n";
+    }
 }
 
 // теоретико-множественные операции
 
 TSet& TSet::operator=(const TSet &s) // присваивание
 {
-    return FAKE_SET;
+    MaxPower = s.MaxPower;
+    BitField = s.BitField;
+    return *this;
 }
 
 int TSet::operator==(const TSet &s) const // сравнение
 {
-    return FAKE_INT;
+    if (BitField == s.BitField) 
+        return 1; 
+    else 
+        return 0;
 }
 
 int TSet::operator!=(const TSet &s) const // сравнение
 {
-    return FAKE_INT;
+    if (MaxPower != s.MaxPower)
+    {
+        return 1;
+    }
+    if (BitField != s.BitField)
+        return 1;
+    else
+        return 0;
 }
 
 TSet TSet::operator+(const TSet &s) // объединение
 {
-    return FAKE_SET;
+    TSet a(BitField | s.BitField);
+    return a;
 }
 
 TSet TSet::operator+(const int Elem) // объединение с элементом
 {
-    return FAKE_SET;
+    TSet a(*this);
+    if ((Elem < MaxPower) & (Elem >= 0)) {
+        a.InsElem(Elem);
+    }
+    else
+    {
+        throw "Bad value of the variable";
+    }
+    return a;
 }
 
 TSet TSet::operator-(const int Elem) // разность с элементом
 {
-    return FAKE_SET;
+    TSet a(*this);
+    if ((Elem < MaxPower) & (Elem >= 0)) {
+        a.DelElem(Elem);
+    }
+    else
+    {
+        throw "Bad value of the variable";
+    }
+    return a;
 }
 
 TSet TSet::operator*(const TSet &s) // пересечение
 {
-    return FAKE_SET;
+    TSet a(BitField & s.BitField);
+    return a;
 }
 
 TSet TSet::operator~(void) // дополнение
 {
-    return FAKE_SET;
+    TSet a(~BitField);
+    return a;
 }
 
 // перегрузка ввода/вывода
 
 istream &operator>>(istream &istr, TSet &s) // ввод
 {
+    cin >> s.BitField;
+    s.MaxPower = s.BitField.GetLength();
     return istr;
 }
 
 ostream& operator<<(ostream &ostr, const TSet &s) // вывод
 {
+    cout << "BitField of set: " << s.BitField;
     return ostr;
 }

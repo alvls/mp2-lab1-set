@@ -10038,7 +10038,8 @@ Strings UniversalTersePrintTupleFieldsToStrings(const Tuple& value) {
 
 template <typename T>
 ::std::string PrintToString(const T& value) {
-  ::std::stringstream ss;
+
+    ::std::stringstream ss;
   internal::UniversalTersePrinter<T>::Print(value, &ss);
   return ss.str();
 }
