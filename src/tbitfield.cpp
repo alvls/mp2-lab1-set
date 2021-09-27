@@ -38,7 +38,6 @@ TBitField::TBitField(const TBitField &bf) : BitLen(bf.BitLen), MemLen(bf.MemLen)
 TBitField::~TBitField()
 {
     delete[]pMem;
-    pMem = nullptr;
 }
 
 int TBitField::GetMemIndex(const int n) const // индекс Мем для бита n
@@ -195,7 +194,7 @@ istream &operator>>(istream &istr, TBitField &bf) // ввод
 
 ostream &operator<<(ostream &ostr, const TBitField &bf) // вывод
 {
-    for (size_t i = 0; i < bf.BitLen; i++)
+    for (size_t i = bf.BitLen-1; i > 0; i--)
     {
         ostr << bf.GetBit(i);
     }
