@@ -9,6 +9,8 @@
 #define __BITFIELD_H__
 
 #include <iostream>
+#include <exception>
+#include <cmath>
 
 using namespace std;
 
