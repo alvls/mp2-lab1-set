@@ -1,8 +1,8 @@
-# Install script for directory: F:/Documents/GitHub/mp2-lab1-set/gtest
+# Install script for directory: F:/Documents/GitHub/Hmm/mp2-lab1-set/gtest
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "F:/Documents/GitHub/mp2-lab1-set/out/install/x64-Debug")
+  set(CMAKE_INSTALL_PREFIX "F:/Documents/GitHub/Hmm/mp2-lab1-set/out/install/x64-Debug")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 

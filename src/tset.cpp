@@ -77,9 +77,7 @@ int TSet::operator!=(const TSet& s) const // сравнение
 }
 
 TSet TSet::operator+(const TSet &s) // объединение
-{   
-    if (MaxPower != s.MaxPower)
-        throw FAKE_INT;
+{  
     return TSet(BitField | s.BitField);
 }
 
@@ -103,8 +101,6 @@ TSet TSet::operator-(const int Elem) // разность с элементом
 
 TSet TSet::operator*(const TSet &s) // пересечение
 {
-    if (MaxPower != s.MaxPower)
-        throw FAKE_INT;
     return TSet(BitField & s.BitField);
 }
 

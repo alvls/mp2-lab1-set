@@ -27,17 +27,13 @@ int main()
   // заполнение множества
   for (m = 2; m <= n; m++)
     s.SetBit(m);
-
-
   // проверка до sqrt(n) и удаление кратных
-  for (m = 2; m * m <= n; m++) {
-      // если m в s, удаление кратных
-      if (s.GetBit(m))
-          for (k = 2 * m; k <= n; k += m)
-              if (s.GetBit(k))
-                  s.ClrBit(k);
-  }
-        
+  for (m = 2; m * m <= n; m++)
+    // если m в s, удаление кратных
+    if (s.GetBit(m))
+      for (k = 2 * m; k <= n; k += m)
+        if (s.GetBit(k))
+          s.ClrBit(k);
   // оставшиеся в s элементы - простые числа
   cout << endl << "Печать множества некратных чисел" << endl << s << endl;
   cout << endl << "Печать простых чисел" << endl;
