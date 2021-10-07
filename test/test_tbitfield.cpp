@@ -14,6 +14,27 @@ TEST(TBitField, can_get_length)
   EXPECT_EQ(3, bf.GetLength());
 }
 
+TEST(TBitField, cant_get_bit_with_index_is_Bitlen)
+{
+    TBitField bf(5);
+
+    ASSERT_ANY_THROW(bf.GetBit(5));
+}
+
+TEST(TBitField, cant_clr_bit_with_index_is_Bitlen)
+{
+    TBitField bf(5);
+
+    ASSERT_ANY_THROW(bf.ClrBit(5));
+}
+
+TEST(TBitField, cant_set_bit_with_index_is_Bitlen)
+{
+    TBitField bf(5);
+
+    ASSERT_ANY_THROW(bf.SetBit(5));
+}
+
 TEST(TBitField, new_bitfield_is_set_to_zero)
 {
   TBitField bf(100);
