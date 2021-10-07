@@ -55,6 +55,13 @@ TEST(TBitField, throws_when_create_bitfield_with_negative_length)
   ASSERT_ANY_THROW(TBitField bf(-3));
 }
 
+TEST(TBitField, throws_when_needed_bit_is_equal_bit_length)
+{
+    const int bitLength = 3;
+    TBitField bf(bitLength);
+    ASSERT_ANY_THROW(bf.SetBit(bitLength), bf.ClrBit(bitLength), bf.GetBit(bitLength));
+}
+
 TEST(TBitField, throws_when_set_bit_with_negative_index)
 {
   TBitField bf(10);
