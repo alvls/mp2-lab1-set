@@ -89,12 +89,12 @@ int TBitField::GetBit(const int n) const {
 TBitField& TBitField::operator=(const TBitField &bf) {
     BitLen = bf.BitLen; //BitLen - длина битового поля - макс. кол-во битов
     if (MemLen != bf.MemLen) {
-        MemLen = bf.MemLen;
-        if (pMem != NULL){
-            delete pMem;
-        }
-            pMem = new TELEM[MemLen];
+        MemLen = bf.MemLen;  
     }
+    if (pMem != NULL) {
+        delete[] pMem;
+    }
+    pMem = new TELEM[MemLen];
     if (pMem != NULL) {
         for (int i = 0; i < MemLen; i++) {
             pMem[i] = bf.pMem[i];
