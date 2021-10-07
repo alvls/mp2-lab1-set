@@ -69,6 +69,13 @@ TEST(TBitField, throws_when_set_bit_with_too_large_index)
   ASSERT_ANY_THROW(bf.SetBit(11));
 }
 
+TEST(TBitField, throws_when_set_bit_with_bitlen_index)
+{
+  TBitField bf(10);
+
+  ASSERT_ANY_THROW(bf.SetBit(10));
+}
+
 TEST(TBitField, throws_when_get_bit_with_negative_index)
 {
   TBitField bf(10);
@@ -83,6 +90,13 @@ TEST(TBitField, throws_when_get_bit_with_too_large_index)
   ASSERT_ANY_THROW(bf.GetBit(11));
 }
 
+TEST(TBitField, throws_when_get_bit_with_bitlen_index)
+{
+  TBitField bf(10);
+
+  ASSERT_ANY_THROW(bf.GetBit(10));
+}
+
 TEST(TBitField, throws_when_clear_bit_with_negative_index)
 {
   TBitField bf(10);
@@ -95,6 +109,13 @@ TEST(TBitField, throws_when_clear_bit_with_too_large_index)
   TBitField bf(10);
 
   ASSERT_ANY_THROW(bf.ClrBit(11));
+}
+
+TEST(TBitField, throws_when_clear_bit_with_bitlen_index)
+{
+  TBitField bf(10);
+
+  ASSERT_ANY_THROW(bf.ClrBit(10));
 }
 
 TEST(TBitField, can_assign_bitfields_of_equal_size)
