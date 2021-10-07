@@ -57,7 +57,7 @@ int TBitField::GetLength(void) const // получить длину (к-во б�
 
 void TBitField::SetBit(const int n) // установить бит +
 {
-    if (n < 0 || n>BitLen)
+    if (n < 0 || n>BitLen-1)
         throw - 1;
     TELEM tmp;
     tmp = (1 << n);
