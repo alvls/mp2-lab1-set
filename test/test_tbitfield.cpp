@@ -334,3 +334,21 @@ TEST(TBitField, can_do_sum_pipe)
   EXPECT_EQ(bf4 | bf1, bf3 | bf1 | bf2);
 
 }
+TEST(TBitField, throws_when_set_bit_with_index_equal_bitfield_size)
+{
+    const int size = 4;
+    TBitField bf(size);
+    ASSERT_ANY_THROW(bf.SetBit(size));
+}
+TEST(TBitField, throws_when_get_bit_with_index_equal_bitfield_size)
+{
+    const int size = 4;
+    TBitField bf(size);
+    ASSERT_ANY_THROW(bf.GetBit(size));
+}
+TEST(TBitField, throws_when_clr_bit_with_index_equal_bitfield_size)
+{
+    const int size = 4;
+    TBitField bf(size);
+    ASSERT_ANY_THROW(bf.ClrBit(size));
+}
