@@ -87,7 +87,7 @@ int TBitField::GetBit(const int n) const {
 
 // присваивание
 TBitField& TBitField::operator=(const TBitField &bf) {
-    BitLen = bf.BitLen; //BitLen - длина битового поля - макс. кол-во битов
+    BitLen = bf.BitLen; // BitLen - длина бит поля - макс. кол-во битов
     if (MemLen != bf.MemLen) {
         MemLen = bf.MemLen;  
     }
