@@ -37,10 +37,11 @@ TEST(TBitField, can_set_bit)
   EXPECT_NE(0, bf.GetBit(3));
 }
 
-TEST(TBitField, can_set_last_bit)
+TEST(TBitField, can_set_every_bit)
 {
     TBitField bf(10);
-    ASSERT_NO_THROW(bf.SetBit(9));
+    for(int i = 0; i < bf.GetLength(); i++)
+        ASSERT_NO_THROW(bf.SetBit(i));
 }
 
 TEST(TBitField, can_clear_bit)
@@ -56,10 +57,11 @@ TEST(TBitField, can_clear_bit)
   EXPECT_EQ(0, bf.GetBit(bitIdx));
 }
 
-TEST(TBitField, can_clear_last_bit)
+TEST(TBitField, can_clear_every_bit)
 {
     TBitField bf(10);
-    ASSERT_NO_THROW(bf.ClrBit(9));
+    for (int i = 0; i < bf.GetLength(); i++)
+        ASSERT_NO_THROW(bf.ClrBit(i));
 }
 
 TEST(TBitField, throws_when_create_bitfield_with_negative_length)
@@ -102,10 +104,11 @@ TEST(TBitField, throws_when_clear_bit_with_negative_index)
   ASSERT_ANY_THROW(bf.ClrBit(-3));
 }
 
-TEST(TBitField, can_get_last_bit)
+TEST(TBitField, can_get_every_bit)
 {
     TBitField bf(10);
-    ASSERT_NO_THROW(bf.GetBit(9));
+    for (int i = 0; i < bf.GetLength(); i++)
+        ASSERT_NO_THROW(bf.GetBit(i));
 }
 
 TEST(TBitField, throws_when_clear_bit_with_too_large_index)
