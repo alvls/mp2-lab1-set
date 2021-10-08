@@ -84,10 +84,9 @@ int TBitField::GetBit(const int n) const // получить значение б
 TBitField& TBitField::operator=(const TBitField &bf) // присваивание
 {
     TELEM* _pMem = new TELEM[bf.MemLen];
-    delete pMem;
+    delete[] pMem; pMem = _pMem;
     BitLen = bf.BitLen;
     MemLen = bf.MemLen;
-    pMem = _pMem;
     for(int i=0;i<MemLen;i++)
         pMem[i] = bf.pMem[i];
     return *this;
