@@ -8,28 +8,22 @@
 #include "tset.h"//ЗДЕСЬ ПИШЕМ КОД
 
 // Fake variables used as placeholders in tests
-static const int FAKE_INT = -1;
-static TBitField FAKE_BITFIELD(1);
-static TSet FAKE_SET(1);
 
-TSet::TSet(int mp) : BitField(-1)
+
+TSet::TSet(int mp) : BitField(mp), MaxPower(mp) 
 {
-    TBitField BitField(mp);
-    MaxPower = mp;
+    /*TBitField BitField(mp);
+    MaxPower = mp;*/
 }
 
 // конструктор копирования
-TSet::TSet(const TSet &s) : BitField(-1)
+TSet::TSet(const TSet &s) : MaxPower(s.MaxPower), BitField (s.BitField)
 {
-    this->MaxPower = s.MaxPower;
-    this->BitField = s.BitField;
 }
 
 // конструктор преобразования типа
-TSet::TSet(const TBitField &bf) : BitField(-1)
+TSet::TSet(const TBitField &bf) : BitField(bf), MaxPower(bf.GetLength())
 {
-    this->BitField = bf;
-    MaxPower = 0;
 }
 
 TSet::operator TBitField()
@@ -45,7 +39,7 @@ int TSet::GetMaxPower(void) const // получить макс. к-во эл-т�
 int TSet::IsMember(const int Elem) const // элемент множества?
 {
 
-    return FAKE_INT;
+    return BitField.GetBit(Elem);
 }
 
 void TSet::InsElem(const int Elem) // включение элемента множества

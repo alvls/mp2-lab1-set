@@ -8,15 +8,12 @@
 #include "tbitfield.h"///////ЗДЕСЬ ПИШЕМ КОД
 //static - живут всю программу, как и константы, но обьявлять их можно в любом месте, а не только в начале. и инициализируются только 1 раз. с обьектами класса то же самое
 // Fake variables used as placeholders in tests
-static const int FAKE_INT = -1;
-static TBitField FAKE_BITFIELD(1);
 
 TBitField::TBitField(int len=0)
 {
+    if (len < 0) throw "unable to create the BitField with negative length";
     BitLen = len;
-    MemLen = BitLen / sizeof(TELEM);
-    if (BitLen % sizeof(TELEM) != 0)
-        MemLen++;
+    MemLen = (len - 1) / (sizeof(int) * 8) + 1;
     pMem = new TELEM[MemLen];
     for (int i = 0; i < MemLen; i++)
     {
@@ -26,12 +23,12 @@ TBitField::TBitField(int len=0)
 
 TBitField::TBitField(const TBitField &bf) // конструктор копирования
 {
-    this->BitLen = bf.BitLen;
-    this->MemLen = bf.MemLen;
-    pMem = new TELEM[MemLen];//т.к мы не выделяли паиять в новом объекте, потому что он новый!!!!!
+    BitLen = bf.BitLen;
+    MemLen = bf.MemLen;
+    pMem = new TELEM[MemLen];
     for (int i = 0; i < MemLen; i++)
     {
-        this->pMem[i] = bf.pMem[i];
+        pMem[i] = bf.pMem[i];
     }
 }
 
@@ -42,10 +39,7 @@ TBitField::~TBitField()//деструктор
 
 int TBitField::GetMemIndex(const int n) const // индекс Мем для бита n
 {
-    int num = n / sizeof(TELEM);
-    if (n % sizeof(TELEM) != 0)
-        num++;
-    return num;//?
+    return n / (sizeof(int) * 8);
 }
 
 TELEM TBitField::GetMemMask(const int n) const // битовая маска для бита n
@@ -99,47 +93,33 @@ TBitField& TBitField::operator=(const TBitField &bf) // присваивание
 
 int TBitField::operator==(const TBitField &bf) const // сравнение
 {
-    int flag=1;
-    if (bf.BitLen != this->BitLen)
-        flag = 0;
+    if (bf.BitLen != BitLen)
+        return(0);
     else
     {
-        for (int i = 0; i < this->BitLen; i++)
-            if (this->pMem[i] != bf.pMem[i])
-                flag = 0;
+        for (int i = 0; i < BitLen; i++)
+            if (pMem[i] != bf.pMem[i])
+                return(0);
     }
-    return flag;
+    return(1);
 }
 
 int TBitField::operator!=(const TBitField &bf) const // сравнение
 {
-    int flag=0;
-    if (bf.BitLen != this->BitLen)
-        flag = 1;
+    if (bf.BitLen != BitLen)
+        return(1);
     else
     {
         for (int i = 0; i < this->BitLen; i++)
-            if (this->pMem[i] != bf.pMem[i])
-                flag = 1;
+            if (pMem[i] != bf.pMem[i])
+                return(1);
     }
-    return flag;
+    return(0);
 }
 
 TBitField TBitField::operator|(const TBitField &bf) // операция "или"
 {
-    /*TBitField res(BitLen);
-    for (int i = 0; i < BitLen; i++)
-    {
-        res.pMem[i] = pMem[i];
-    }
-    for (int i = 0; i < BitLen; i++)
-    {
-        if ((pMem[i] == 1) || (bf.pMem[i] == 1))
-            res.pMem[i] = 1;
-        else
-            res.pMem[i] = 0;
-    }
-    return res;*/
+    
     if (BitLen > bf.BitLen)
     {
         TBitField temp(BitLen);
@@ -173,19 +153,7 @@ TBitField TBitField::operator|(const TBitField &bf) // операция "или"
 
 TBitField TBitField::operator&(const TBitField &bf) // операция "и"
 {
-    /*TBitField res(BitLen);
-    for (int i = 0; i < BitLen; i++)
-    {
-        res.pMem[i] = pMem[i];
-    }
-    for (int i = 0; i < BitLen; i++)
-    {
-        if ((pMem[i] == 1) && (bf.pMem[i] == 1))
-            res.pMem[i] = 1;
-        else
-            res.pMem[i] = 0;
-    }
-    return res;*/
+   
     if (BitLen > bf.BitLen)
     {
         TBitField temp(BitLen);
