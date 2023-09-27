@@ -13,8 +13,10 @@
 static const int FAKE_INT = -1;
 static TBitField FAKE_BITFIELD(1);
 
-TBitField::TBitField(size_t len)
+TBitField::TBitField(int len)
 {
+    if (len < 0)
+        throw 1;
     BitLen = len;
     MemLen = ((BitLen / BIT_IN_ELEM) + (BitLen % BIT_IN_ELEM != 0));
     pMem = new TELEM[MemLen]();
