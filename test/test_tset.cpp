@@ -295,3 +295,30 @@ TEST(TSet, check_negation_operator)
 
   EXPECT_EQ(expSet, set1);
 }
+
+
+//добавим еще несколько проверок - получение исключений
+
+TEST(TSet, throws_when_checking_is_member_out_of_range)
+{
+    const int size = 5;
+    TSet set(size);
+
+    ASSERT_ANY_THROW(set.IsMember(size));
+}
+
+TEST(TSet, throws_when_inserting_element_out_of_range)
+{
+    const int size = 5;
+    TSet set(size);
+
+    ASSERT_ANY_THROW(set.InsElem(size));
+}
+
+TEST(TSet, throws_when_deleting_element_out_of_range)
+{
+    const int size = 5;
+    TSet set(size);
+
+    ASSERT_ANY_THROW(set.DelElem(size));
+}

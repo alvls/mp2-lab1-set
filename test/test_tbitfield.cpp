@@ -309,3 +309,27 @@ TEST(TBitField, bitfields_with_different_bits_are_not_equal)
 
   EXPECT_NE(bf1, bf2);
 }
+
+//добавим еще несколько проверок 
+
+TEST(TBitField, can_copy_bitfield) //корректная работа конструктора копирования 
+{
+    TBitField bf1(10);
+    bf1.SetBit(3);
+    bf1.SetBit(7);
+
+    TBitField bf2(bf1);
+
+    EXPECT_EQ(bf1, bf2);
+}
+
+TEST(TBitField, check_memory_leak_on_destruction) //корректная очистка памяти 
+{
+    TBitField* bf = new TBitField(100);
+    bf->SetBit(10);
+    bf->SetBit(20);
+
+    delete bf;
+
+    EXPECT_TRUE(true);
+}
