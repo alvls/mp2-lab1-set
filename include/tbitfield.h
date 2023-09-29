@@ -9,10 +9,13 @@
 #define __BITFIELD_H__
 
 #include <iostream>
+#include <cmath>
 
 using namespace std;
 
 typedef unsigned int TELEM;
+
+bool isCorrectBitIndex(const int n, int BitLen); // проверка, корректен ли передаваемый индекс бита
 
 class TBitField
 {

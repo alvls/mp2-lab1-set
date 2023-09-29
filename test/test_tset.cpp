@@ -295,3 +295,23 @@ TEST(TSet, check_negation_operator)
 
   EXPECT_EQ(expSet, set1);
 }
+
+TEST(TSet, can_compare_sets_correctly)
+{
+    const int size = 5;
+    TSet set1(size), set2(size);
+
+    set1.InsElem(1);
+    set1.InsElem(2);
+    set1.InsElem(3);
+
+    set2.InsElem(1);
+    set2.InsElem(2);
+    set2.InsElem(3);
+
+    EXPECT_EQ(1, set1 == set2);
+
+    set1.DelElem(1);
+
+    EXPECT_EQ(1, set1 != set2);
+}
