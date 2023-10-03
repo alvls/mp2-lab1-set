@@ -295,3 +295,27 @@ TEST(TSet, check_negation_operator)
 
   EXPECT_EQ(expSet, set1);
 }
+
+TEST(TSet, plus_operator_applied_to_three_bitfields)
+{
+    TSet set1(4), set2(5), set3(7), expSet(7);
+    // set1 = {1, 2}
+    set1.InsElem(1);
+    set1.InsElem(2);
+    // set2 = {3, 4}
+    set2.InsElem(3);
+    set2.InsElem(4);
+    // set3 = {5, 6}
+    set3.InsElem(5);
+    set3.InsElem(6);
+
+    //expSet = {1, 2, 3, 4, 5, 6}
+    expSet.InsElem(1);
+    expSet.InsElem(2);
+    expSet.InsElem(3);
+    expSet.InsElem(4);
+    expSet.InsElem(5);
+    expSet.InsElem(6);
+
+    EXPECT_EQ(expSet, set1 + set2 + set3);
+}

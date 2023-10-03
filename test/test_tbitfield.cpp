@@ -76,6 +76,13 @@ TEST(TBitField, throws_when_get_bit_with_negative_index)
   ASSERT_ANY_THROW(bf.GetBit(-3));
 }
 
+TEST(TBitField, throws_when_get_bit_with_bitlen_index)
+{
+    TBitField bf(10);
+
+    ASSERT_ANY_THROW(bf.GetBit(10));
+}
+
 TEST(TBitField, throws_when_get_bit_with_too_large_index)
 {
   TBitField bf(10);
@@ -88,6 +95,13 @@ TEST(TBitField, throws_when_clear_bit_with_negative_index)
   TBitField bf(10);
 
   ASSERT_ANY_THROW(bf.ClrBit(-3));
+}
+
+TEST(TBitField, throws_when_clear_bit_with_bitlen_index)
+{
+    TBitField bf(10);
+
+    ASSERT_ANY_THROW(bf.ClrBit(10));
 }
 
 TEST(TBitField, throws_when_clear_bit_with_too_large_index)
@@ -188,6 +202,30 @@ TEST(TBitField, or_operator_applied_to_bitfields_of_non_equal_size)
 
   EXPECT_EQ(expBf, bf1 | bf2);
 }
+
+TEST(TBitField, or_operator_applied_to_three_bitfields)
+{
+    TBitField bf1(4), bf2(5), bf3(6), expBf(6);
+    // bf1 = 0101
+    bf1.SetBit(1);
+    bf1.SetBit(3);
+    // bf2 = 00111
+    bf2.SetBit(2);
+    bf2.SetBit(3);
+    bf2.SetBit(4);
+    // bf3 = 100000
+    bf3.SetBit(0);
+
+    // expBf = 111110
+    expBf.SetBit(0);
+    expBf.SetBit(1);
+    expBf.SetBit(2);
+    expBf.SetBit(3);
+    expBf.SetBit(4);
+
+    EXPECT_EQ(expBf, bf1 | bf2 | bf3);
+}
+
 
 TEST(TBitField, and_operator_applied_to_bitfields_of_equal_size)
 {

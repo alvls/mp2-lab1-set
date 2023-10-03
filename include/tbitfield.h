@@ -7,8 +7,10 @@
 
 #ifndef __BITFIELD_H__
 #define __BITFIELD_H__
+#define BitsInElem 32
 
 #include <iostream>
+#include <exception>
 
 using namespace std;
 
