@@ -319,4 +319,6 @@ TEST(TBitField, two_clrbit)
 
     EXPECT_EQ(0, bf.GetBit(bitIdx));
 }
-
+//
+//
+//
