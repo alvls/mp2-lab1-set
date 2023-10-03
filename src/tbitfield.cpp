@@ -137,12 +137,28 @@ TBitField TBitField::operator|(const TBitField& bf) // операция "или"
         mem_len = MemLen;
     }
     TBitField out(max_len);
-    for (int i = 0; i < mem_len; i++)
+    int i;
+    for (i = 0; i < mem_len; i++)
     {
         out.pMem[i] = bf.pMem[i] | pMem[i];
     }
+    if (BitLen > bf.BitLen)
+    {
+        for (; i < MemLen; i++)
+        {
+            out.pMem[i] = pMem[i];
+        }
+    }
+    else
+    {
+        for (; i < bf.MemLen; i++)
+        {
+            out.pMem[i] = bf.pMem[i];
+        }
+    }
     return out;
 }
+
 
 TBitField TBitField::operator&(const TBitField& bf) // операция "и"
 {
