@@ -295,3 +295,22 @@ TEST(TSet, check_negation_operator)
 
   EXPECT_EQ(expSet, set1);
 }
+
+//Мой тест
+TEST(TSet, check_the_intersection_of_different_sets) 
+{
+	const int size = 5;
+	TSet set1(size), set2(size);
+	set1.InsElem(1);
+	set1.InsElem(2);
+	set1.InsElem(3);
+	set1.InsElem(4);
+	set1.InsElem(5);
+	//set1 = {1.2.3.4.5}
+	set2.InsElem(6);
+	set2.InsElem(7);
+	set2.InsElem(8);
+	set2.InsElem(9); 
+	set2.InsElem(0);
+	EXPECT_NE(set2, set1);
+}
