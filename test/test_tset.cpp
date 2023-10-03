@@ -295,3 +295,21 @@ TEST(TSet, check_negation_operator)
 
   EXPECT_EQ(expSet, set1);
 }
+
+TEST(TSet, three_operations_plus)
+{
+    const int size = 4;
+    TSet s1(size), s2(size), s3(size), res(size), tmp(size);
+
+    s1.InsElem(1);
+    s2.InsElem(2);
+    s3.InsElem(3);
+
+    tmp.InsElem(1);
+    tmp.InsElem(2);
+    tmp.InsElem(3);
+
+    res = s1 + s2 + s3;
+
+    EXPECT_EQ(res, tmp);
+}
