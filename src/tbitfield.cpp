@@ -191,8 +191,6 @@ istream &operator>>(istream &istr, TBitField &bf) // ввод
         istr >> s;
         if (s == '1')
             bf.SetBit(i);
-        else if (s == '0')
-            bf.SetBit(i);
     }
     return istr;
 }
