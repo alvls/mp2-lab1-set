@@ -123,8 +123,8 @@ TBitField TBitField::operator|(const TBitField &bf)
 // операция "и"
 TBitField TBitField::operator&(const TBitField &bf)
 {
-    int minLen = (BitLen < bf.BitLen) ? BitLen : bf.BitLen;
-    TBitField result(minLen);
+    int maxLen = (BitLen > bf.BitLen) ? BitLen : bf.BitLen;
+    TBitField result(maxLen);
     for (int i = 0; i < result.MemLen; i++)
         result.pMem[i] = pMem[i] & bf.pMem[i];
     return result;
@@ -134,8 +134,17 @@ TBitField TBitField::operator&(const TBitField &bf)
 TBitField TBitField::operator~(void)
 {
     TBitField result(BitLen);
-    for (int i = 0; i < MemLen; i++)
+    for (int i = 0; i < MemLen; i++) {
         result.pMem[i] = ~pMem[i];
+    }
+
+    // Создаем маску для последнего элемента массива, чтобы обнулить лишние биты
+    int lastBits = BitLen % (sizeof(TELEM) * 8);
+    if (lastBits != 0) {
+        TELEM mask = (1 << lastBits) - 1;
+        result.pMem[MemLen - 1] &= mask;
+    }
+
     return result;
 }
 
@@ -153,9 +162,8 @@ istream &operator>>(istream &istr, TBitField &bf) {
 // вывод
 ostream &operator<<(ostream &ostr, const TBitField &bf) {
     for (int i = 0; i < bf.GetLength(); i++) {
-        if (bf.GetBit(i)) {
-            ostr << i << " ";
-        }
+        ostr << bf.GetBit(i) << " ";
     }
     return ostr;
 }
+
