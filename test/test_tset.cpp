@@ -295,3 +295,22 @@ TEST(TSet, check_negation_operator)
 
   EXPECT_EQ(expSet, set1);
 }
+
+TEST(TBitField, three_tset_combo_correctly) {
+    const int size = 4;
+    TSet set1(size), set2(size), set3(size), set4(size);
+
+    set1.InsElem(1);
+    set1.InsElem(3);
+    
+    set2.InsElem(1);
+    set2.InsElem(2);
+     
+    set3.InsElem(0);
+    set3.InsElem(1);
+    
+    set4 = set1 + set2;
+    set4 = set4 + set3;
+
+    EXPECT_EQ(set4, set1 + set2 + set3);
+}
