@@ -66,7 +66,7 @@ TEST(TBitField, can_doubel_clear)
 }
 TEST(TBitField, throws_when_create_bitfield_with_negative_length)
 {
-  ASSERT_ANY_THROW(TBitField bf(-3));
+    ASSERT_ANY_THROW(TBitField bf(-3));
 }
 
 TEST(TBitField, throws_when_set_bit_with_negative_index)

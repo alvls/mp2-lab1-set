@@ -14,15 +14,19 @@ int BitsInElem = numeric_limits<TELEM>::digits;
 TBitField::TBitField(int len)
 {
     
+    if (len < 0) {
+        throw "Negative len";
+    }
+    
     BitLen = len;
     MemLen = BitLen / BitsInElem + 1;
     pMem = new TELEM[MemLen];
     for (int i = 0; i < MemLen; i++) {
         pMem[i] = 0;
     }
-    if (len < 0){
-        throw "Len negative";
-    }
+    
+    
+ 
 }
 TBitField::TBitField(const TBitField &bf) // конструктор копирования
 {
