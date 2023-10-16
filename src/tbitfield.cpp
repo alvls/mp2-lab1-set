@@ -75,7 +75,7 @@ int TBitField::GetBit(const int n) const // получить значение б
 
 // битовые операции
 
-TBitField& TBitField::operator=(const TBitField &bf) // присваивание
+TBitField& TBitField::operator=(const TBitField &bf) // присваивание 
 {
 	if(this != &bf) {
 		BitLen = bf.BitLen;
@@ -94,7 +94,7 @@ int TBitField::operator==(const TBitField &bf) const // сравнение
 {
 	if (BitLen != bf.BitLen) 
 		return false; 
-
+	
 	for (int i = 0; i < MemLen; i++) {
 		if (pMem[i] != bf.pMem[i])
 			return false;
@@ -110,18 +110,19 @@ int TBitField::operator!=(const TBitField &bf) const// сравнение
 
 TBitField TBitField::operator|(const TBitField &bf) // операция "или"
 {
-	/*assert(BitLen == bf.BitLen);
-
-	TBitField result(BitLen);
-
-	for (int i = 0; i < MemLen; i++)
-		result.pMem[i] = pMem[i] | bf.pMem[i];
-
-	return result;*/
 	const bool more = BitLen > bf.BitLen;
 	const TBitField* rhs = more ? &bf : this;
 	TBitField res = more ? TBitField(*this) : TBitField(bf);
-
+	/*const TBitField* rhs;
+	TBitField res(1);
+	if (BitLen > bf.BitLen) {
+		 rhs = &bf;
+		 res = *this;
+	}
+	else {
+		res = bf;
+		rhs = this;
+	}*/
 	for (int i = 0; i < res.MemLen; i++) {
 		res.pMem[i] |= rhs->pMem[i]; 
 	}
@@ -139,7 +140,6 @@ TBitField TBitField::operator&(const TBitField &bf) // операция "и"
 		result.pMem[i] = pMem[i] & bf.pMem[i];
 
 	return result;*/
-	
 	TBitField res(max(BitLen, bf.BitLen));
 	const int less = min(MemLen, bf.MemLen);
 
@@ -182,6 +182,8 @@ istream &operator>>(istream &istr, TBitField &bf) // ввод
 ostream &operator<<(ostream &ostr, const TBitField &bf) // вывод
 {
 	for (int i = 0; i < bf.BitLen; i++)
-		ostr << bf.GetBit(i);
+		//ostr << bf.GetBit(i);
+		if (bf.GetBit(i) != 0) ostr << 1;
+		else ostr << bf.GetBit(i);
 	return ostr;
 }
