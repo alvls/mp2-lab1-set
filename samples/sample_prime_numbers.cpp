@@ -11,7 +11,7 @@
                 // закоментировать, чтобы использовать битовое поле
 
 #ifndef USE_SET // Использовать класс TBitField
-
+/*
 #include "tbitfield.h"
 
 int main()
@@ -50,7 +50,8 @@ int main()
   cout << endl;
   cout << "В первых " << n << " числах " << count << " простых" << endl;
 }
-#else
+*/
+
 
 #include "tset.h"
 
