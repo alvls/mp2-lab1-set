@@ -7,8 +7,10 @@
 
 #ifndef __BITFIELD_H__
 #define __BITFIELD_H__
+#define BitsInElement 32
 
 #include <iostream>
+#include <bit>
 
 using namespace std;
 
