@@ -7,10 +7,6 @@
 
 #include "tbitfield.h"
 
-// Fake variables used as placeholders in tests
-static const int FAKE_INT = -1;
-static TBitField FAKE_BITFIELD(1);
-
 TBitField::TBitField(int len)
 {
     if (len <= 0) throw std::logic_error("TBitField::TBitField : len param must be greater than zero.");
@@ -39,13 +35,13 @@ TBitField::~TBitField()
 int TBitField::GetMemIndex(const int n) const // индекс Мем для бита n
 {
     if (n < 0 || n >= BitLen) throw range_error("TBitField::GetMemIndex : param n is out of bounds.");
-    return n / (8 * sizeof(TELEM));
+    return n >> 5;
 }
 
 TELEM TBitField::GetMemMask(const int n) const // битовая маска для бита n
 {
     if (n < 0 || n >= BitLen) throw range_error("TBitField::GetMemIndex : param n is out of bounds.");
-    return 1 << n % (8 * sizeof(TELEM));
+    return static_cast<TELEM>(1 << (n & 5));
 }
 
 // доступ к битам битового поля
@@ -73,7 +69,7 @@ int TBitField::GetBit(const int n) const // получить значение б
 {
     if (n < 0 || n >= BitLen) throw range_error("TBitField::GetMemIndex : param n is out of bounds.");
 
-    return (pMem[GetMemIndex(n)] & GetMemMask(n)) != 0;
+    return static_cast<bool>(pMem[GetMemIndex(n)] & GetMemMask(n));
 }
 
 // битовые операции
