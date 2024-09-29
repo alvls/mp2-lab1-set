@@ -150,10 +150,17 @@ TSet TSet::operator~(void) // дополнение
 
 istream &operator>>(istream &istr, TSet &s) // ввод
 {
+    // input bitfield
+    istr >> s.BitField;
     return istr;
 }
 
 ostream& operator<<(ostream &ostr, const TSet &s) // вывод
 {
+    // output indexes of members
+    for (int i = 0; i < s.GetMaxPower(); i++) {
+        if (s.IsMember(i)) ostr << i << ' ';
+    }
+
     return ostr;
 }
