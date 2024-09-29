@@ -28,7 +28,7 @@ TBitField::TBitField(const TBitField &bf) // конструктор копиро
     BitLen = bf.BitLen;
     MemLen = bf.MemLen;
     pMem = new TELEM[MemLen];
-    memset(pMem, 0, MemLen * sizeof(TELEM));
+    copy(bf.pMem, bf.pMem + MemLen, pMem);
 }
 
 TBitField::~TBitField()
@@ -88,7 +88,7 @@ TBitField& TBitField::operator=(const TBitField &bf) // присваивание
     }
 
     BitLen = bf.BitLen;
-    std::copy(bf.pMem, bf.pMem + MemLen, pMem);
+    copy(bf.pMem, bf.pMem + MemLen, pMem);
 
     return *this;
 }
@@ -110,7 +110,7 @@ int TBitField::operator==(const TBitField &bf) const // сравнение
 
 int TBitField::operator!=(const TBitField &bf) const // сравнение
 {
-    return ~operator==(bf);
+    return operator==(bf) == 0;
 }
 
 TBitField TBitField::operator|(const TBitField &bf) // операция "или"
@@ -173,7 +173,7 @@ istream &operator>>(istream &istr, TBitField &bf) // ввод
     for (size_t i = 0; i < bf.GetLength(); i++)
     {
         char bit;
-        cin >> bit;
+        istr >> bit;
 
         if (bit == '1')
         {
@@ -192,7 +192,7 @@ ostream &operator<<(ostream &ostr, const TBitField &bf) // вывод
 {
     for (size_t i = 0; i < bf.GetLength(); i++)
     {
-        cout << bf.GetBit(i);
+        ostr << bf.GetBit(i);
     }
 
     return ostr;
