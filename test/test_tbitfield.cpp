@@ -309,3 +309,50 @@ TEST(TBitField, bitfields_with_different_bits_are_not_equal)
 
   EXPECT_NE(bf1, bf2);
 }
+
+TEST(TBitField, setbit_works_properly_when_1) {
+    TBitField bf(10);
+    bf.SetBit(4);
+    int x = bf.GetBit(4);
+    EXPECT_EQ(bf.GetBit(4), 1);
+}
+
+TEST(TBitField, setbit_works_properly_when_0) {
+    TBitField bf(10);
+    bf.SetBit(3);
+    bf.SetBit(5);
+    int x = bf.GetBit(4);
+    EXPECT_EQ(bf.GetBit(4), 0);
+}
+
+TEST(TBitField, double_clear_clears) {
+    TBitField bf(40);
+    for (int i = 0; i < 10; i++) {
+        bf.SetBit(i);
+    }
+    bf.ClrBit(5);
+    bf.ClrBit(5);
+    EXPECT_EQ(bf.GetBit(5), 0);
+}
+
+TEST(TBitField, double_set_sets) {
+    TBitField bf(40);
+    bf.SetBit(5);
+    bf.SetBit(5);
+    EXPECT_EQ(bf.GetBit(5), 1);
+}
+
+TEST(TBitField, triple_union_works_properly) {
+    vector<TBitField> bf { TBitField(40), TBitField(40), TBitField(40) };
+
+    for (int i = 0; i < 30; i++) {
+        bf[i / 10].SetBit(i);
+    }
+    bf[1].ClrBit(14);
+    int onecnt = 0;
+    TBitField un = bf[0] | bf[1] | bf[2];
+    for (int i = 0; i < 30; i++) {
+        onecnt += un.GetBit(i);
+    }
+    EXPECT_EQ(onecnt, 29);
+}

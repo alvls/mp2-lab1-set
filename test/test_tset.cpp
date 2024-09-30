@@ -295,3 +295,23 @@ TEST(TSet, check_negation_operator)
 
   EXPECT_EQ(expSet, set1);
 }
+
+TEST(TSet, triple_union_works_properly)
+{
+	vector<TSet> st { TSet(51), TSet(51), TSet(51) };
+	for (int i = 0; i < 48; i++) {
+		if (i % 4 != 2)	st[i % 3].InsElem(i);
+	}
+	TSet un = st[0] + st[1] + st[2];
+
+	int onecnt = 0;
+	for (int i = 0; i < un.GetMaxPower(); i++) {
+		onecnt += un.IsMember(i);
+	}
+	bool res = onecnt == 36;
+
+	for (int i = 0; i < 48; i++) {
+		if (i % 4 != 2)	res &= st[i % 3].IsMember(i);
+	}
+	EXPECT_EQ(res, 1);
+}

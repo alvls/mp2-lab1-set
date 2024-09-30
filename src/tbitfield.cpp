@@ -70,7 +70,7 @@ int TBitField::GetBit(const int n) const // получить значение б
 {
     if (n < 0) throw std::invalid_argument("Negative index");
     if (n >= BitLen) throw std::invalid_argument("Too large index");
-    return pMem[GetMemIndex(n)] & GetMemMask(n);
+    return (bool)(pMem[GetMemIndex(n)] & GetMemMask(n));
 }
 
 // битовые операции

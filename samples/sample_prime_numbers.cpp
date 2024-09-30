@@ -89,6 +89,9 @@ int main()
     }
   cout << endl;
   cout << "В первых " << n << " числах " << count << " простых" << endl;
+  TBitField tst(33);
+  cin >> tst;
+  cout << tst << ' ' << tst << " bf[32]: " << tst.GetBit(32);
 }
 
 #endif

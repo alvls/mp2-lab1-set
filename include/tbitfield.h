@@ -7,7 +7,7 @@
 
 #ifndef __BITFIELD_H__
 #define __BITFIELD_H__
-#define BitsInElement 32
+#define BitsInElement 32 // bit_width didnt work for some reason :\
 
 #include <iostream>
 #include <bit>
