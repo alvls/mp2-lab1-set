@@ -12,7 +12,11 @@
 
 using namespace std;
 
-typedef unsigned int TELEM;
+typedef unsigned char TELEM;
+
+std::string dec_to_bin(int num);
+
+int bin_to_dec(string bin_num);
 
 class TBitField
 {
@@ -20,10 +24,13 @@ private:
   int  BitLen; // длина битового поля - макс. к-во битов
   TELEM *pMem; // память для представления битового поля
   int  MemLen; // к-во эл-тов Мем для представления бит.поля
-
+  int BitsInElem; // кол-во элементов в ячейке pMem
+  int ShiftSize; // смещение для определения ячейки pMem, в котрой располагается полученный номер бита
+  
   // методы реализации
-  int   GetMemIndex(const int n) const; // индекс в pМем для бита n       (#О2)
-  TELEM GetMemMask (const int n) const; // битовая маска для бита n       (#О3)
+  int   GetMemIndex(const int pos) const noexcept; // индекс в pМем для бита n       (#О2)
+  TELEM GetMemMask (const int pos) const noexcept; // битовая маска для бита n       (#О3)
+  int TBitField::GetCell(const int cell_pos) const; 
 public:
   TBitField(int len);                //                                   (#О1)
   TBitField(const TBitField &bf);    //                                   (#П1)
@@ -31,9 +38,9 @@ public:
 
   // доступ к битам
   int GetLength(void) const;      // получить длину (к-во битов)           (#О)
-  void SetBit(const int n);       // установить бит                       (#О4)
-  void ClrBit(const int n);       // очистить бит                         (#П2)
-  int  GetBit(const int n) const; // получить значение бита               (#Л1)
+  void SetBit(const int pos);       // установить бит                       (#О4)
+  void ClrBit(const int pos);       // очистить бит                         (#П2)
+  int  GetBit(const int pos) const; // получить значение бита               (#Л1)
 
   // битовые операции
   int operator==(const TBitField &bf) const; // сравнение                 (#О5)
