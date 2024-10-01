@@ -7,7 +7,7 @@ TBitField::TBitField(int len)
     }
 
     BitLen = len;
-    MemLen = (len + 31) >> 5;
+    MemLen = (len + sizeof(TELEM) * 8 - 1) / (sizeof(TELEM) * 8);
     pMem = new TELEM[MemLen];
     memset(pMem, 0, MemLen * sizeof(TELEM));
 }
@@ -27,12 +27,16 @@ TBitField::~TBitField()
 
 int TBitField::GetMemIndex(const int n) const // индекс Мем для бита n
 {
+    if (n < 0 || n >= BitLen)
+        throw out_of_range("Bit index out of range");
     return n >> 5;
 }
 
 TELEM TBitField::GetMemMask(const int n) const // битовая маска для бита n
 {
-    return 1 << (n & 31);
+    if (n < 0 || n >= BitLen)
+        throw out_of_range("Bit index out of range");
+    return 1 << (n & (sizeof(TELEM) * 8 - 1));
 }
 
 // доступ к битам битового поля
@@ -44,21 +48,21 @@ int TBitField::GetLength(void) const // получить длину (к-во б�
 
 void TBitField::SetBit(const int n) // установить бит
 {
-    if (n < 0 || n > BitLen)
+    if (n < 0 || n >= BitLen)
         throw out_of_range("Bit index out of range");
     pMem[GetMemIndex(n)] |= GetMemMask(n);
 }
 
 void TBitField::ClrBit(const int n) // очистить бит
 {
-    if (n < 0 || n > BitLen)
+    if (n < 0 || n >= BitLen)
         throw out_of_range("Bit index out of range");
     pMem[GetMemIndex(n)] &= ~GetMemMask(n);
 }
 
 int TBitField::GetBit(const int n) const // получить значение бита
 {
-    if (n < 0 || n > BitLen)
+    if (n < 0 || n >= BitLen)
         throw out_of_range("Bit index out of range");
     return ((pMem[GetMemIndex(n)] & GetMemMask(n)) != 0);
 }
@@ -131,15 +135,10 @@ TBitField TBitField::operator&(const TBitField &bf) // операция "и"
 TBitField TBitField::operator~(void) // отрицание
 {
     TBitField res(BitLen);
-    for (int i = 0; i < MemLen; i++) {
-        res.pMem[i] = ~pMem[i];
+    for (int i = 0; i < BitLen; i++) {
+        if (GetBit(i)) res.ClrBit(i);
+        else res.SetBit(i);
     }
-
-    int unusedBits = (MemLen * 32) - BitLen;
-    if (unusedBits > 0) {
-        res.pMem[MemLen - 1] &= (1U << (32 - unusedBits)) - 1;
-    }
-
     return res;
 }
 
@@ -147,8 +146,6 @@ TBitField TBitField::operator~(void) // отрицание
 
 istream &operator>>(istream &istr, TBitField &bf) // ввод
 {
-    istr >> std::ws;
-
     char bit;
     for (int i = 0; i < bf.BitLen; i++) {
         istr >> bit;
