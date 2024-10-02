@@ -6,31 +6,45 @@
 // Битовое поле
 
 #include "tbitfield.h"
+#include <cstring>
 
 // Fake variables used as placeholders in tests
 static const int FAKE_INT = -1;
 static TBitField FAKE_BITFIELD(1);
 
+using namespace std;
+
 TBitField::TBitField(int len)
 {
+    if (len <= 0)
+        throw invalid_argument("Bit field length must be positive");
+    BitLen = len;
+    MemLen = (len + 31) >> 5;  // len / 32, так как 1 элемент pMem хранит 32 бита
+    pMem = new TELEM[MemLen];
+    std::memset(pMem, 0, MemLen * sizeof(TELEM));  // Инициализируем массив нулями
 }
 
 TBitField::TBitField(const TBitField &bf) // конструктор копирования
 {
+    BitLen = bf.BitLen;
+    MemLen = bf.MemLen;
+    pMem = new TELEM[MemLen];
+    memcpy(pMem, bf.pMem, MemLen * sizeof(TELEM));  // Копируем данные
 }
 
 TBitField::~TBitField()
 {
+    delete[] pMem;
 }
 
 int TBitField::GetMemIndex(const int n) const // индекс Мем для бита n
 {
-    return FAKE_INT;
+    return n >> 5;  // Индекс элемента массива (n / 32)
 }
 
 TELEM TBitField::GetMemMask(const int n) const // битовая маска для бита n
 {
-    return FAKE_INT;
+    return 1 << (n & 31);  // Маска для бита n % 32
 }
 
 // доступ к битам битового поля
