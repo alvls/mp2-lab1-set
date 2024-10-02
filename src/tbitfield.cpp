@@ -190,10 +190,12 @@ istream &operator>>(istream &istr, TBitField &bf) // ввод
 
 ostream &operator<<(ostream &ostr, const TBitField &bf) // вывод
 {
+    string s(bf.GetLength(), '0');
     for (size_t i = 0; i < bf.GetLength(); i++)
     {
-        ostr << bf.GetBit(i);
+        if (bf.GetBit(i)) s[i] = '1';
     }
 
+    ostr << s;
     return ostr;
 }
