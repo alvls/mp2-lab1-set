@@ -309,3 +309,56 @@ TEST(TBitField, bitfields_with_different_bits_are_not_equal)
 
   EXPECT_NE(bf1, bf2);
 }
+
+TEST(TBitField, double_clear_bit_leaves_it_zero)
+{
+    TBitField bf(10);
+    bf.SetBit(3);
+    EXPECT_NE(0, bf.GetBit(3));
+
+    bf.ClrBit(3);
+    bf.ClrBit(3);
+    EXPECT_EQ(0, bf.GetBit(3));
+}
+
+TEST(TBitField, can_apply_multiple_or_operations_in_one_line)
+{
+    const int size = 6;
+    TBitField bf1(size), bf2(size), bf3(size), expBf(size), res(size);
+
+    bf1.SetBit(1); // bf1 = 000010
+    bf2.SetBit(2); // bf2 = 000100
+    bf3.SetBit(3); // bf3 = 001000
+
+    expBf.SetBit(1); // expBf = 001110
+    expBf.SetBit(2);
+    expBf.SetBit(3);
+
+    res = bf1 | bf2 | bf3;
+
+    EXPECT_EQ(expBf, res);
+}
+
+TEST(TBitField, can_apply_multiple_and_operations_in_one_line)
+{
+    const int size = 6;
+    TBitField bf1(size), bf2(size), bf3(size), expBf(size), res(size);
+
+    bf1.SetBit(1); // bf1 = 101010
+    bf1.SetBit(3); 
+    bf1.SetBit(5); 
+
+    bf2.SetBit(2); // bf2 = 011100
+    bf2.SetBit(3); 
+    bf2.SetBit(4); 
+
+    bf3.SetBit(0); // bf3 = 001011
+    bf3.SetBit(1); 
+    bf3.SetBit(3); 
+
+    expBf.SetBit(3); // expBf = 001000
+
+    res = bf1 & bf2 & bf3;
+
+    EXPECT_EQ(expBf, res);
+}

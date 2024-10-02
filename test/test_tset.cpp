@@ -295,3 +295,48 @@ TEST(TSet, check_negation_operator)
 
   EXPECT_EQ(expSet, set1);
 }
+
+TEST(TSet, can_apply_multiple_union_operations_in_one_line)
+{
+	const int size = 6;
+	TSet set1(size), set2(size), set3(size), expSet(size), res(size);
+
+	set1.InsElem(1); // set1 = {1}
+	set2.InsElem(2); // set2 = {2}
+	set3.InsElem(3); // set3 = {3}
+
+	expSet.InsElem(1); // expSet = {1, 2, 3}
+	expSet.InsElem(2);
+	expSet.InsElem(3);
+
+	res = set1 + set2 + set3;
+
+	EXPECT_EQ(expSet, res);
+
+}
+
+TEST(TSet, can_apply_multiple_intersection_operations_in_one_line)
+{
+	const int size = 6;
+	TSet set1(size), set2(size), set3(size), expSet(size), res(size);
+
+	set1.InsElem(1); // set1 = {1, 2, 5}
+	set1.InsElem(2);
+	set1.InsElem(5);
+
+	set2.InsElem(2); // set2 = {2, 4, 5}
+	set2.InsElem(4); 
+	set2.InsElem(5); 
+
+	set3.InsElem(2); // set3 = {2, 3, 5}
+	set3.InsElem(3);
+	set3.InsElem(5);
+
+	expSet.InsElem(2); // expSet = {2, 5}
+	expSet.InsElem(5);
+
+	res = set1 * set2 * set3;
+
+	EXPECT_EQ(expSet, res);
+
+}
