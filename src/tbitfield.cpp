@@ -6,9 +6,7 @@
 // Битовое поле
 
 #include "tbitfield.h"
-#include <bit>
-#include <bitset>
-#include <iostream>
+
 
 // Fake variables used as placeholders in tests
 static const int FAKE_INT = -1;
@@ -25,6 +23,7 @@ int MagicShiftConstant = 3; ///  std::bit_width(BitsInElem - 1); - doesn work, 8
 
 TBitField::TBitField(int len) : BitLen(len)
 {
+    if (len < 0) throw string("Incorrect lenght of BitField");
     BitsInElem = numeric_limits<TELEM>::digits;
     ShiftSize = MagicShiftConstant; ///  std::bit_width(BitsInElem - 1); - doesn work
     MemLen = BitLen / BitsInElem + (BitLen % BitsInElem == 0 ? 0 : 1);
@@ -56,6 +55,7 @@ TELEM TBitField::GetMemMask(const int pos) const noexcept// битовая ма�
 
 int TBitField::GetCell(const int cell_pos) const {
     // 5 4 3 2 1 0
+    if (cell_pos < 0) throw string("Incorrect bit position in BitField");
     return pMem[cell_pos];
 }
 
@@ -68,6 +68,7 @@ int TBitField::GetLength(void) const // получить длину (к-во б�
 
 void TBitField::SetBit(const int pos) // установить бит
 {
+    if ((pos >= BitLen) || (pos < 0)) throw string("Incorrect bit position in BitField");
     TELEM cell = this->GetMemMask(pos);
     int mem_ind = this->GetMemIndex(pos);
     pMem[mem_ind] |= cell;
@@ -75,6 +76,7 @@ void TBitField::SetBit(const int pos) // установить бит
 
 void TBitField::ClrBit(const int pos) // очистить бит
 {
+    if ((pos >= BitLen) || (pos < 0)) throw string("Incorrect bit position in BitField");
     TELEM cell = ~(this->GetMemMask(pos));
     int mem_ind = this->GetMemIndex(pos);
     pMem[mem_ind] &= cell;
@@ -82,6 +84,7 @@ void TBitField::ClrBit(const int pos) // очистить бит
 
 int TBitField::GetBit(const int pos) const // получить значение бита
 {
+    if ((pos >= BitLen) || (pos < 0)) throw string("Incorrect bit position in BitField");
     TELEM cell = this->GetMemMask(pos);
     int mem_ind = this->GetMemIndex(pos);
     return ((pMem[mem_ind] & cell) == 0 ? 0 : 1); /// -> (pMem[mem_ind] & cell) ? 1 : 0)
@@ -91,10 +94,12 @@ int TBitField::GetBit(const int pos) const // получить значение 
 
 TBitField& TBitField::operator=(const TBitField &bf) // присваивание
 {
+    if (*this == bf) return *this;
     BitLen = bf.BitLen;
     BitsInElem = bf.BitsInElem;
     ShiftSize = bf.ShiftSize; 
     MemLen = bf.MemLen;
+    delete[] pMem;
     pMem = new TELEM[MemLen]{ 0 };
     for (int i = 0; i < MemLen; i++)
         pMem[i] = bf.pMem[i];
@@ -151,7 +156,7 @@ TBitField TBitField::operator|(const TBitField &bf) // операция "или"
 
 
 TBitField TBitField::operator&(const TBitField &bf) // операция "и"
-{ /// а вот "и" между 101 и 10001 как должно выглядить? как 00001 или 1? 
+{ /// а вот "и" между 101 и 10001 как должно выглядить? как 00001_ или 1? 
     int max_Mem, min_Mem, i = 0;
     TELEM* max_pMem = NULL;
     TBitField tmo(1);
@@ -187,6 +192,13 @@ TBitField TBitField::operator~(void) // отрицание
     TBitField tmo(BitLen);
     for (int i = 0; i < MemLen; i++)
         tmo.pMem[i] = (~pMem[i]);
+    
+    int q = BitLen % (sizeof(TELEM) * 8);
+    if (q != 0) {
+        TELEM mask = (1 << q) - 1;
+        tmo.pMem[MemLen - 1] &= mask;
+    }
+   
     return tmo;
 }
 

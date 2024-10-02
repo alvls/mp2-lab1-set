@@ -16,7 +16,7 @@ static TSet FAKE_SET(1);
 
 TSet::TSet(int mp) : BitField(mp), MaxPower(mp)
 {
-    ;
+    
 }
 
 // конструктор копирования
