@@ -7,11 +7,6 @@
 
 #include "tset.h"
 
-// Fake variables used as placeholders in tests
-static const int FAKE_INT = -1;
-static TBitField FAKE_BITFIELD(1);
-static TSet FAKE_SET(1);
-
 TSet::TSet(int mp) : MaxPower(mp), BitField(mp) {}
 
 // конструктор копирования
@@ -51,52 +46,84 @@ void TSet::DelElem(const int Elem) // исключение элемента мн
 
 TSet& TSet::operator=(const TSet &s) // присваивание
 {
-    return FAKE_SET;
+    if (this != &s)
+    {
+        MaxPower = s.MaxPower;
+        BitField = s.BitField;
+    }
+    return *this;
 }
 
 int TSet::operator==(const TSet &s) const // сравнение
 {
-    return FAKE_INT;
+    return (BitField == s.BitField);
 }
 
 int TSet::operator!=(const TSet &s) const // сравнение
 {
-    return FAKE_INT;
+    return (BitField != s.BitField);
 }
 
 TSet TSet::operator+(const TSet &s) // объединение
 {
-    return FAKE_SET;
+    int maxPower = MaxPower > s.MaxPower ? MaxPower : s.MaxPower;
+    TSet result(maxPower);
+    result.BitField = BitField | s.BitField;
+    return result;
 }
 
 TSet TSet::operator+(const int Elem) // объединение с элементом
 {
-    return FAKE_SET;
+    if (Elem < 0 || Elem >= MaxPower)
+        throw out_of_range("Element out of range");
+    TSet result(*this);
+    result.InsElem(Elem);
+    return result;
 }
 
 TSet TSet::operator-(const int Elem) // разность с элементом
 {
-    return FAKE_SET;
+    TSet result(*this);
+    result.DelElem(Elem);
+    return result;
 }
 
 TSet TSet::operator*(const TSet &s) // пересечение
 {
-    return FAKE_SET;
+    int maxPower = MaxPower > s.MaxPower ? MaxPower : s.MaxPower;
+    TSet result(maxPower);
+    result.BitField = BitField & s.BitField;
+    return result;
 }
 
 TSet TSet::operator~(void) // дополнение
 {
-    return FAKE_SET;
+    TSet result(MaxPower);
+    result.BitField = ~BitField;
+    return result;
 }
 
 // перегрузка ввода/вывода
 
 istream &operator>>(istream &istr, TSet &s) // ввод
 {
+    int temp;
+    for (int i = 0; i < s.MaxPower; i++)
+    {
+        istr >> temp;
+        s.InsElem(temp);
+    }
     return istr;
 }
 
 ostream& operator<<(ostream &ostr, const TSet &s) // вывод
 {
+    ostr << "{";
+    for (int i = 0; i < s.MaxPower; i++)
+    {
+        if (s.IsMember(i))
+            ostr << i << " ";
+    }
+    ostr << "}";
     return ostr;
 }
