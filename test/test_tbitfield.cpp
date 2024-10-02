@@ -7,6 +7,12 @@ TEST(TBitField, can_create_bitfield_with_positive_length)
   ASSERT_NO_THROW(TBitField bf(3));
 }
 
+TEST(TBitField, can_create_with_copy_constructor)
+{
+    TBitField bf(10);
+    ASSERT_NO_THROW(TBitField bf2(bf));
+}
+
 TEST(TBitField, can_get_length)
 {
   TBitField bf(3);
@@ -111,6 +117,20 @@ TEST(TBitField, can_assign_bitfields_of_equal_size)
   EXPECT_NE(0, bf2.GetBit(1));
 }
 
+TEST(TBitField, can_assign_self)
+{
+    const int size = 2;
+    TBitField bf1(size);
+    for (int i = 0; i < size; i++)
+    {
+        bf1.SetBit(i);
+    }
+
+    bf1 = bf1;
+    EXPECT_NE(0, bf1.GetBit(0));
+    EXPECT_NE(0, bf1.GetBit(1));
+}
+
 TEST(TBitField, assign_operator_changes_bitfield_size)
 {
   const int size1 = 2, size2 = 5;
@@ -136,6 +156,19 @@ TEST(TBitField, can_assign_bitfields_of_non_equal_size)
 
   EXPECT_NE(0, bf2.GetBit(0));
   EXPECT_NE(0, bf2.GetBit(1));
+}
+
+TEST(TBitField, compare_bitfield_created_with_copy_constructor)
+{
+    const int size = 4;
+    TBitField bf1(size);
+    for (int i = 0; i < size; i++)
+    {
+        bf1.SetBit(i);
+    }
+    TBitField bf2(bf1);
+
+    EXPECT_EQ(bf1, bf2);
 }
 
 TEST(TBitField, compare_equal_bitfields_of_equal_size)

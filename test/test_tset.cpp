@@ -72,6 +72,19 @@ TEST(TSet, compare_two_equal_sets)
   EXPECT_EQ(set1, set2);
 }
 
+TEST(TSet, compare_set_and_its_copy)
+{
+    const int size = 4;
+    TSet set1(size);
+    // set1 = set2 = {1, 3}
+    set1.InsElem(1);
+    set1.InsElem(3);
+    
+    TSet set2(set1);
+
+    EXPECT_EQ(set1, set2);
+}
+
 TEST(TSet, compare_two_non_equal_sets)
 {
   const int size = 4;
@@ -121,6 +134,24 @@ TEST(TSet, can_assign_set_of_less_size)
   set2 = set1;
 
   EXPECT_EQ(set1, set2);
+}
+
+TEST(TSet, can_assign_self)
+{
+    const int size1 = 6;
+    TSet set1(size1);
+    // set1 = {1, 3, 5}
+    set1.InsElem(1);
+    set1.InsElem(3);
+    set1.InsElem(5);
+
+    set1 = set1;
+
+    EXPECT_EQ(1, set1.IsMember(1));
+    EXPECT_EQ(0, set1.IsMember(2));
+    EXPECT_EQ(1, set1.IsMember(3));
+    EXPECT_EQ(1, set1.IsMember(5));
+    EXPECT_EQ(size1, set1.GetMaxPower());
 }
 
 TEST(TSet, can_insert_non_existing_element_using_plus_operator)
