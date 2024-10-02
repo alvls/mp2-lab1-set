@@ -7,8 +7,6 @@
 
 #include "tset.h"
 
-///Tset(0)
-
 // Fake variables used as placeholders in tests
 static const int FAKE_INT = -1;
 static TBitField FAKE_BITFIELD(1);
@@ -16,13 +14,13 @@ static TSet FAKE_SET(1);
 
 TSet::TSet(int mp) : BitField(mp), MaxPower(mp)
 {
-    
+    if (mp < 1) throw string("Incorrect set max power");
 }
 
 // конструктор копирования
 TSet::TSet(const TSet &s) : BitField(s.BitField), MaxPower(s.MaxPower)
 {
-    ; ///test pls
+    ; 
 }
 
 // конструктор преобразования типа
@@ -35,7 +33,7 @@ TSet::operator TBitField()
 {
     TBitField bf = BitField;
     return bf;
-} ///??
+} 
 
 int TSet::GetMaxPower(void) const // получить макс. к-во эл-тов
 {
@@ -79,10 +77,11 @@ int TSet::operator!=(const TSet &s) const // сравнение
 }
 
 TSet TSet::operator+(const TSet &s) // объединение
-{
+{  
     TBitField bf = (BitField | s.BitField);
     TSet tmp(bf);
     return tmp;
+    
 }
 
 TSet TSet::operator+(const int Elem) // объединение с элементом
@@ -105,6 +104,8 @@ TSet TSet::operator*(const TSet &s) // пересечение
     TSet tmp(bf);
     return tmp;
 }
+
+
 
 TSet TSet::operator~(void) // дополнение
 {

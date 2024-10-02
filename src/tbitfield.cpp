@@ -11,7 +11,7 @@
 // Fake variables used as placeholders in tests
 static const int FAKE_INT = -1;
 static TBitField FAKE_BITFIELD(1);
-int MagicShiftConstant = 3; ///  std::bit_width(BitsInElem - 1); - doesn work, 8 = 2^3 
+int MagicShiftConstant = 3; ///  std::bit_width(BitsInElem - 1); - doesnt work, 8 = 2^3 
 
 /*  
   int  BitLen; // длина битового поля
@@ -87,7 +87,7 @@ int TBitField::GetBit(const int pos) const // получить значение 
     if ((pos >= BitLen) || (pos < 0)) throw string("Incorrect bit position in BitField");
     TELEM cell = this->GetMemMask(pos);
     int mem_ind = this->GetMemIndex(pos);
-    return ((pMem[mem_ind] & cell) == 0 ? 0 : 1); /// -> (pMem[mem_ind] & cell) ? 1 : 0)
+    return (pMem[mem_ind] & cell) ? 1 : 0;
 }
 
 // битовые операции
@@ -106,9 +106,9 @@ TBitField& TBitField::operator=(const TBitField &bf) // присваивание
     return *this;
 }
 
-int TBitField::operator==(const TBitField &bf) const // сравнение /// bool
+int TBitField::operator==(const TBitField &bf) const // сравнение
 {
-    if ((BitLen != bf.BitLen) && (MemLen != bf.MemLen))
+    if ((BitLen != bf.BitLen) || (MemLen != bf.MemLen))
         return 0;
     for (int i = 0; i < MemLen; i++)
         if (pMem[i] != bf.pMem[i])
@@ -155,8 +155,7 @@ TBitField TBitField::operator|(const TBitField &bf) // операция "или"
 
 
 
-TBitField TBitField::operator&(const TBitField &bf) // операция "и"
-{ /// а вот "и" между 101 и 10001 как должно выглядить? как 00001_ или 1? 
+TBitField TBitField::operator&(const TBitField &bf) { // операция "и"
     int max_Mem, min_Mem, i = 0;
     TELEM* max_pMem = NULL;
     TBitField tmo(1);
@@ -193,12 +192,11 @@ TBitField TBitField::operator~(void) // отрицание
     for (int i = 0; i < MemLen; i++)
         tmo.pMem[i] = (~pMem[i]);
     
-    int q = BitLen % (sizeof(TELEM) * 8);
-    if (q != 0) {
-        TELEM mask = (1 << q) - 1;
+    int rest_bits = BitLen % (sizeof(TELEM) * BitsInElem);
+    if (rest_bits != 0) {
+        TELEM mask = (1 << rest_bits) - 1;
         tmo.pMem[MemLen - 1] &= mask;
     }
-   
     return tmo;
 }
 
@@ -220,28 +218,6 @@ istream &operator>>(istream &istr, TBitField &bf) // ввод
     return istr;
 }
 
-///del in release
-/*
-ostream &operator<<(ostream &ostr, const TBitField &bf) // вывод
-{
-    std::string field = "";
-    int i = bf.MemLen - 1;
-    for (; i > 0; i--) {
-        field += dec_to_bin(bf.GetCell(i));
-        //while (field.length() < bf.BitsInElem)
-        //   field = '0' + field; 
-        field +=' ';
-        ostr << field;
-        field = "";
-    }
-
-    for (int j = 0; j < (bf.BitLen % bf.BitsInElem); j++)
-        ostr << bf.GetBit(j + i * bf.BitsInElem);
-    //std::cout << field;
-    return ostr;
-}
-*/
-
 ostream& operator<<(ostream& ostr, const TBitField& bf) // вывод
 {
     std::string field = "";
@@ -257,7 +233,7 @@ std::string dec_to_bin(int num)
 
     while (num > 0) {
         tmp = num % 2;
-        binNum += (tmp == 0 ? '0' : '1'); /// ну это переделать надо
+        binNum += (tmp == 0 ? '0' : '1'); 
         num /= 2;
     }
 
