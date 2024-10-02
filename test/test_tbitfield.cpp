@@ -56,6 +56,21 @@ TEST(TBitField, can_clear_bit)
   EXPECT_EQ(0, bf.GetBit(bitIdx));
 }
 
+TEST(TBitField, can_clear_already_cleared)
+{
+    TBitField bf(10);
+
+    int bitIdx = 3;
+
+    bf.SetBit(bitIdx);
+    EXPECT_NE(0, bf.GetBit(bitIdx));
+
+    bf.ClrBit(bitIdx);
+    EXPECT_EQ(0, bf.GetBit(bitIdx));
+    bf.ClrBit(bitIdx);
+    EXPECT_EQ(0, bf.GetBit(bitIdx));
+}
+
 TEST(TBitField, throws_when_create_bitfield_with_negative_length)
 {
   ASSERT_ANY_THROW(TBitField bf(-3));
@@ -220,6 +235,31 @@ TEST(TBitField, or_operator_applied_to_bitfields_of_non_equal_size)
   expBf.SetBit(3);
 
   EXPECT_EQ(expBf, bf1 | bf2);
+}
+
+TEST(TBitField, or_operator_applied_to_bitfields_in_a_row)
+{
+    const int size1 = 4, size2 = 5, size3=3;
+    TBitField bf1(size1), bf2(size2), bf3(size3), expBf(size2);
+    // bf1 = 0011
+    bf1.SetBit(2);
+    bf1.SetBit(3);
+    // bf2 = 01010
+    bf2.SetBit(1);
+    bf2.SetBit(3);
+    // bf3 = 110
+    bf3.SetBit(0);
+    bf3.SetBit(1);
+
+    // expBf = 11110
+    expBf.SetBit(0);
+    expBf.SetBit(1);
+    expBf.SetBit(2);
+    expBf.SetBit(3);
+
+    EXPECT_EQ(expBf, bf1 | bf2 | bf3);
+    EXPECT_EQ(expBf, bf3 | bf1 | bf2);
+    EXPECT_EQ(expBf, bf2 | bf3 | bf1);
 }
 
 TEST(TBitField, and_operator_applied_to_bitfields_of_equal_size)
