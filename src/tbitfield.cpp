@@ -8,10 +8,6 @@
 #include "tbitfield.h"
 #include <cstring>
 
-// Fake variables used as placeholders in tests
-static const int FAKE_INT = -1;
-static TBitField FAKE_BITFIELD(1);
-
 using namespace std;
 
 TBitField::TBitField(int len)
@@ -134,8 +130,13 @@ TBitField TBitField::operator&(const TBitField &bf) // операция "и"
 TBitField TBitField::operator~(void) // отрицание
 {
     TBitField result(BitLen);
-    for (int i = 0; i < MemLen; i++)
-        result.pMem[i] = ~pMem[i];
+    for (int i = 0; i < BitLen; i++)
+    {
+        if (GetBit(i))  // Если бит был установлен
+            result.ClrBit(i);  // Очищаем его
+        else
+            result.SetBit(i);  // Иначе устанавливаем
+    }
     return result;
 }
 
@@ -143,10 +144,23 @@ TBitField TBitField::operator~(void) // отрицание
 
 istream &operator>>(istream &istr, TBitField &bf) // ввод
 {
+    char ch;
+    for (int i = 0; i < bf.GetLength(); i++)
+    {
+        istr >> ch;
+        if (ch == '1')
+            bf.SetBit(i);  // Устанавливаем бит, если введена единица
+        else if (ch == '0')
+            bf.ClrBit(i);  // Очищаем бит, если введен ноль
+        else
+            throw invalid_argument("Invalid character when entering bit field");
+    }
     return istr;
 }
 
 ostream &operator<<(ostream &ostr, const TBitField &bf) // вывод
 {
+    for (int i = 0; i < bf.GetLength(); i++)
+        ostr << bf.GetBit(i);  // Выводим каждый бит битового поля
     return ostr;
 }
