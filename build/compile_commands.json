@@ -1,0 +1,44 @@
+[
+{
+  "directory": "/Users/vkutergi/repositories/mp2-lab1-set/build/src",
+  "command": "/usr/bin/clang++  -I/Users/vkutergi/repositories/mp2-lab1-set/include -I/Users/vkutergi/repositories/mp2-lab1-set/gtest -g -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.3.sdk -o CMakeFiles/set.dir/tbitfield.cpp.o -c /Users/vkutergi/repositories/mp2-lab1-set/src/tbitfield.cpp",
+  "file": "/Users/vkutergi/repositories/mp2-lab1-set/src/tbitfield.cpp",
+  "output": "src/CMakeFiles/set.dir/tbitfield.cpp.o"
+},
+{
+  "directory": "/Users/vkutergi/repositories/mp2-lab1-set/build/src",
+  "command": "/usr/bin/clang++  -I/Users/vkutergi/repositories/mp2-lab1-set/include -I/Users/vkutergi/repositories/mp2-lab1-set/gtest -g -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.3.sdk -o CMakeFiles/set.dir/tset.cpp.o -c /Users/vkutergi/repositories/mp2-lab1-set/src/tset.cpp",
+  "file": "/Users/vkutergi/repositories/mp2-lab1-set/src/tset.cpp",
+  "output": "src/CMakeFiles/set.dir/tset.cpp.o"
+},
+{
+  "directory": "/Users/vkutergi/repositories/mp2-lab1-set/build/samples",
+  "command": "/usr/bin/clang++  -I/Users/vkutergi/repositories/mp2-lab1-set/include -I/Users/vkutergi/repositories/mp2-lab1-set/gtest -g -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.3.sdk -o CMakeFiles/sample_prime_numbers.dir/sample_prime_numbers.cpp.o -c /Users/vkutergi/repositories/mp2-lab1-set/samples/sample_prime_numbers.cpp",
+  "file": "/Users/vkutergi/repositories/mp2-lab1-set/samples/sample_prime_numbers.cpp",
+  "output": "samples/CMakeFiles/sample_prime_numbers.dir/sample_prime_numbers.cpp.o"
+},
+{
+  "directory": "/Users/vkutergi/repositories/mp2-lab1-set/build/gtest",
+  "command": "/usr/bin/clang++  -I/Users/vkutergi/repositories/mp2-lab1-set/include -I/Users/vkutergi/repositories/mp2-lab1-set/gtest -g -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.3.sdk -o CMakeFiles/gtest.dir/gtest-all.cc.o -c /Users/vkutergi/repositories/mp2-lab1-set/gtest/gtest-all.cc",
+  "file": "/Users/vkutergi/repositories/mp2-lab1-set/gtest/gtest-all.cc",
+  "output": "gtest/CMakeFiles/gtest.dir/gtest-all.cc.o"
+},
+{
+  "directory": "/Users/vkutergi/repositories/mp2-lab1-set/build/test",
+  "command": "/usr/bin/clang++  -I/Users/vkutergi/repositories/mp2-lab1-set/include -I/Users/vkutergi/repositories/mp2-lab1-set/gtest -I/Users/vkutergi/repositories/mp2-lab1-set/test/../3rdparty -g -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.3.sdk -o CMakeFiles/test_set.dir/test_main.cpp.o -c /Users/vkutergi/repositories/mp2-lab1-set/test/test_main.cpp",
+  "file": "/Users/vkutergi/repositories/mp2-lab1-set/test/test_main.cpp",
+  "output": "test/CMakeFiles/test_set.dir/test_main.cpp.o"
+},
+{
+  "directory": "/Users/vkutergi/repositories/mp2-lab1-set/build/test",
+  "command": "/usr/bin/clang++  -I/Users/vkutergi/repositories/mp2-lab1-set/include -I/Users/vkutergi/repositories/mp2-lab1-set/gtest -I/Users/vkutergi/repositories/mp2-lab1-set/test/../3rdparty -g -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.3.sdk -o CMakeFiles/test_set.dir/test_tbitfield.cpp.o -c /Users/vkutergi/repositories/mp2-lab1-set/test/test_tbitfield.cpp",
+  "file": "/Users/vkutergi/repositories/mp2-lab1-set/test/test_tbitfield.cpp",
+  "output": "test/CMakeFiles/test_set.dir/test_tbitfield.cpp.o"
+},
+{
+  "directory": "/Users/vkutergi/repositories/mp2-lab1-set/build/test",
+  "command": "/usr/bin/clang++  -I/Users/vkutergi/repositories/mp2-lab1-set/include -I/Users/vkutergi/repositories/mp2-lab1-set/gtest -I/Users/vkutergi/repositories/mp2-lab1-set/test/../3rdparty -g -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.3.sdk -o CMakeFiles/test_set.dir/test_tset.cpp.o -c /Users/vkutergi/repositories/mp2-lab1-set/test/test_tset.cpp",
+  "file": "/Users/vkutergi/repositories/mp2-lab1-set/test/test_tset.cpp",
+  "output": "test/CMakeFiles/test_set.dir/test_tset.cpp.o"
+}
+]
