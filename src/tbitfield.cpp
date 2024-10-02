@@ -14,7 +14,7 @@ static TBitField FAKE_BITFIELD(1);
 TBitField::TBitField(int len): BitLen(len)
 {
     if (len < 0)
-        throw exception("Cannot create BitField with negative length");
+        throw exception("TBitField::TBitField: Cannot create BitField with negative length");
 
     MemLen = (len > TELEMBits * (len / TELEMBits)) ? (len / TELEMBits) + 1 : (len / TELEMBits);
     pMem = new TELEM[MemLen];
@@ -37,7 +37,7 @@ TBitField::~TBitField()
 int TBitField::GetMemIndex(const int n) const // индекс Мем для бита n
 {
     if (n < 0 || n >= BitLen)
-        throw out_of_range("n (bit position) is out of range");
+        throw out_of_range("TBitField::GetMemIndex:  n (bit position) is out of range");
 
     return n / (TELEMBits - 1);
 }
@@ -45,7 +45,7 @@ int TBitField::GetMemIndex(const int n) const // индекс Мем для би
 TELEM TBitField::GetMemMask(const int n) const // битовая маска для бита n
 {
     if (n < 0 || n >= BitLen)
-        throw out_of_range("n (bit position) is out of range");
+        throw out_of_range("TBitField::GetMemMask: n (bit position) is out of range");
 
     return 1 << (n & (TELEMBits - 1));
 }
@@ -60,7 +60,7 @@ int TBitField::GetLength(void) const // получить длину (к-во б�
 void TBitField::SetBit(const int n) // установить бит
 {
     if (n > BitLen)
-        throw out_of_range("n (bit position) is out of range");
+        throw out_of_range("TBitField::SetBit: n (bit position) is out of range");
 
     pMem[GetMemIndex(n)] |= GetMemMask(n);
 }
@@ -68,7 +68,7 @@ void TBitField::SetBit(const int n) // установить бит
 void TBitField::ClrBit(const int n) // очистить бит
 {
     if (n > BitLen)
-        throw out_of_range("n (bit position) is out of range");
+        throw out_of_range("TBitField::ClrBit: n (bit position) is out of range");
 
     pMem[GetMemIndex(n)] &= ~GetMemMask(n);
 }
@@ -76,7 +76,7 @@ void TBitField::ClrBit(const int n) // очистить бит
 int TBitField::GetBit(const int n) const // получить значение бита
 {
     if (n > BitLen)
-        throw out_of_range("n (bit position) is out of range");
+        throw out_of_range("TBitField::GetBit: n (bit position) is out of range");
 
   return (pMem[GetMemIndex(n)] & GetMemMask(n)) != 0;
 }
@@ -140,12 +140,12 @@ TBitField TBitField::operator|(const TBitField &bf) // операция "или"
     else
         Result = bf;
 
-    for (int i = 0; i < min(BitLen, bf.BitLen); i++)
-        if (GetBit(i) || bf.GetBit(i))
-            Result.SetBit(i);
+    //for (int i = 0; i < min(BitLen, bf.BitLen); i++)
+    //    if (GetBit(i) || bf.GetBit(i))
+    //        Result.SetBit(i);
 
-    //for (int i = 0; i < min(MemLen, bf.MemLen); i++)
-    //    Result.pMem[i] = pMem[i] | bf.pMem[i];
+    for (int i = 0; i < min(MemLen, bf.MemLen); i++)
+        Result.pMem[i] = pMem[i] | bf.pMem[i];
 
     return Result;
 }
@@ -154,12 +154,12 @@ TBitField TBitField::operator&(const TBitField &bf) // операция "и"
 {
     TBitField Result(max(BitLen, bf.BitLen));
 
-    for (int i = 0; i < min(BitLen, bf.BitLen); i++)
-        if (GetBit(i) && bf.GetBit(i))
-            Result.SetBit(i);
+    //for (int i = 0; i < min(BitLen, bf.BitLen); i++)
+    //    if (GetBit(i) && bf.GetBit(i))
+    //        Result.SetBit(i);
 
-    //for (int i = 0; i < min(MemLen, bf.MemLen); i++)
-    //    Result.pMem[i] = pMem[i] & bf.pMem[i];
+    for (int i = 0; i < min(MemLen, bf.MemLen); i++)
+        Result.pMem[i] = pMem[i] & bf.pMem[i];
 
     return Result;
 }
@@ -168,12 +168,17 @@ TBitField TBitField::operator~(void) // отрицание
 {
     TBitField Result(BitLen);
 
-    //for (int i = 0; i < BitLen; i++)
-    //    if (!GetBit(i))
-    //        Result.SetBit(i);
+    for (int i = 0; i < BitLen; i++)
+        if (!GetBit(i))
+            Result.SetBit(i);
 
-    for (int i = 0; i < MemLen; i++)
-        Result.pMem[i] = ~pMem[i];
+    
+    //for (int i = 0; i < MemLen; i++)
+    //    Result.pMem[i] = ~pMem[i];
+
+    //for (int i = MemLen * TELEMBits - 1; i >= BitLen; i--)
+    //     Result.pMem[i / (TELEMBits - 1)] &= ~(1 << (i & (TELEMBits - 1)));
+    
 
     return Result;
 }
