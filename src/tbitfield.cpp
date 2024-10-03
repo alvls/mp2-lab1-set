@@ -6,6 +6,8 @@
 // Битовое поле
 
 #include "tbitfield.h"
+#include <string>
+#include <sstream>
 
 // Fake variables used as placeholders in tests
 static const int FAKE_INT = -1;
@@ -38,7 +40,6 @@ int TBitField::GetMemIndex(const int n) const // индекс Мем для би
 {
     if (n < 0 || n >= BitLen)
         throw out_of_range("TBitField::GetMemIndex:  n (bit position) is out of range");
-
     return n / (TELEMBits - 1);
 }
 
@@ -78,7 +79,7 @@ int TBitField::GetBit(const int n) const // получить значение б
     if (n > BitLen)
         throw out_of_range("TBitField::GetBit: n (bit position) is out of range");
 
-  return (pMem[GetMemIndex(n)] & GetMemMask(n)) != 0;
+    return (pMem[GetMemIndex(n)] & GetMemMask(n)) != 0;
 }
 
 // битовые операции
@@ -187,20 +188,28 @@ TBitField TBitField::operator~(void) // отрицание
 
 istream &operator>>(istream &istr, TBitField &bf) // ввод
 {
-    string State;
     for (int i = 0; i < bf.BitLen; i++)
-        State += bf.GetBit(i);
+    {
+        char Bit;
+        istr >> Bit;
 
-    istr >> State;
+        switch (Bit)
+        {
+        case '0': bf.ClrBit(i); break;
+        case '1': bf.SetBit(i); break;
+        default: ;
+        }
+    }
+
     return istr;
 }
 
 ostream &operator<<(ostream &ostr, const TBitField &bf) // вывод
 {
-    string State;
+    std::stringstream State;
     for (int i = 0; i < bf.BitLen; i++)
-        State += bf.GetBit(i);
+        State << bf.GetBit(i);
 
-    ostr << State;
+    ostr << State.str();
     return ostr;
 }
