@@ -295,3 +295,23 @@ TEST(TSet, check_negation_operator)
 
   EXPECT_EQ(expSet, set1);
 }
+
+TEST(TSet, check_size_of_the_combination_of_three_sets_of_equal_size)
+{
+	const int size = 5;
+	TSet set1(size), set2(size), set3(size), set(size);
+	// set1 = {1, 2, 4}
+	set1.InsElem(1);
+	set1.InsElem(2);
+	set1.InsElem(4);
+	// set2 = {0, 1, 2}
+	set2.InsElem(0);
+	set2.InsElem(1);
+	set2.InsElem(2);
+	// set3 = {3}
+	set3.InsElem(3);
+
+	set = set1 + set2 + set3;
+
+	EXPECT_EQ(size, set.GetMaxPower());
+}

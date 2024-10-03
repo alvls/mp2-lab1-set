@@ -9,13 +9,9 @@
 #define __BITFIELD_H__
 
 #include <iostream>
-#include <bit>
-#include <istream>
-//#include <ostream>
 
 using namespace std;
 
-//using TELEM = unsigned char;
 struct TELEM {
 	unsigned char bit0 : 1;
 	unsigned char bit1 : 1;
@@ -33,7 +29,7 @@ private:
   int  BitLen; // длина битового поля - макс. к-во битов
   TELEM *pMem; // память для представления битового поля
   int  MemLen; // к-во эл-тов Мем для представления бит.поля
-  size_t BitsInElem = numeric_limits<TELEM>::digits;
+  size_t BitsInElem = 8;
   size_t ShiftSize = 3;
 
   // методы реализации

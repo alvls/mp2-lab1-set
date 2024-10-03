@@ -7,10 +7,6 @@
 
 #include "tbitfield.h"
 
-// Fake variables used as placeholders in tests
-static const int FAKE_INT = -1;
-static TBitField FAKE_BITFIELD(1);
-
 TBitField::TBitField(int len)
 {
     if (len < 1) throw("Error wrong length");
@@ -165,7 +161,7 @@ void TBitField::ClrBit(const int n) // очистить бит
 int TBitField::GetBit(const int n) const // получить значение бита
 {
     if (n < 0 || n > BitLen) throw("Error, wrong bit");
-    int result;
+    int result = 0;
     if ((n & (BitsInElem - 1)) == 0) {
         result = pMem[n >> ShiftSize].bit0;
     }
@@ -187,7 +183,7 @@ int TBitField::GetBit(const int n) const // получить значение б
     else if ((n & (BitsInElem - 1)) == 6) {
         result = pMem[n >> ShiftSize].bit6;
     }
-    else { 
+    else if ((n & (BitsInElem - 1)) == 7) {
         result = pMem[n >> ShiftSize].bit7;
     }
     return result;
@@ -254,7 +250,7 @@ TBitField TBitField::operator|(const TBitField& bf) // операция "или"
     if (BitLen > bf.BitLen) {
         BitLenMax = BitLen;
     }
-    if (MemLen >= bf.MemLen) {
+    if (MemLen > bf.MemLen) {
         MemLenMax = MemLen;
         MemLenMin = bf.MemLen;
     }

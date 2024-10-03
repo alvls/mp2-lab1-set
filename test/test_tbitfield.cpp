@@ -310,3 +310,38 @@ TEST(TBitField, bitfields_with_different_bits_are_not_equal)
   EXPECT_NE(bf1, bf2);
 
 }
+
+TEST(TBitField, situation_when_clear_bit_the_cleared) 
+{
+    const int size = 2;
+    TBitField bf(size);
+    for (int i = 0; i < size; i++)
+    {
+        bf.SetBit(i);
+    }
+
+    EXPECT_NE(0, bf.GetBit(0));
+}
+
+TEST(TBitField, or_operator_twice_applied_to_bitfields_of_equal_size)
+{
+    const int size = 5;
+    TBitField bf1(size), bf2(size), bf3(size), expBf(size);
+    // bf1 = 0011
+    bf1.SetBit(2);
+    bf1.SetBit(3);
+    // bf2 = 0101
+    bf2.SetBit(1);
+    bf2.SetBit(3);
+    // bf3 = 1001
+    bf3.SetBit(0);
+    bf3.SetBit(3);
+
+    // expBf = 1111
+    expBf.SetBit(0);
+    expBf.SetBit(1);
+    expBf.SetBit(2);
+    expBf.SetBit(3);
+
+    EXPECT_EQ(expBf, bf1 | bf2 | bf3);
+}
