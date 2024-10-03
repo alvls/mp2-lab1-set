@@ -1,0 +1,14 @@
+E:/HeavyProjects/Lobach/Proga_s3/mp2-lab1-set/out/build/x64-Debug/CMakeFiles/edit_cache.dir
+E:/HeavyProjects/Lobach/Proga_s3/mp2-lab1-set/out/build/x64-Debug/CMakeFiles/rebuild_cache.dir
+E:/HeavyProjects/Lobach/Proga_s3/mp2-lab1-set/out/build/x64-Debug/src/CMakeFiles/set.dir
+E:/HeavyProjects/Lobach/Proga_s3/mp2-lab1-set/out/build/x64-Debug/src/CMakeFiles/edit_cache.dir
+E:/HeavyProjects/Lobach/Proga_s3/mp2-lab1-set/out/build/x64-Debug/src/CMakeFiles/rebuild_cache.dir
+E:/HeavyProjects/Lobach/Proga_s3/mp2-lab1-set/out/build/x64-Debug/samples/CMakeFiles/sample_prime_numbers.dir
+E:/HeavyProjects/Lobach/Proga_s3/mp2-lab1-set/out/build/x64-Debug/samples/CMakeFiles/edit_cache.dir
+E:/HeavyProjects/Lobach/Proga_s3/mp2-lab1-set/out/build/x64-Debug/samples/CMakeFiles/rebuild_cache.dir
+E:/HeavyProjects/Lobach/Proga_s3/mp2-lab1-set/out/build/x64-Debug/gtest/CMakeFiles/gtest.dir
+E:/HeavyProjects/Lobach/Proga_s3/mp2-lab1-set/out/build/x64-Debug/gtest/CMakeFiles/edit_cache.dir
+E:/HeavyProjects/Lobach/Proga_s3/mp2-lab1-set/out/build/x64-Debug/gtest/CMakeFiles/rebuild_cache.dir
+E:/HeavyProjects/Lobach/Proga_s3/mp2-lab1-set/out/build/x64-Debug/test/CMakeFiles/test_set.dir
+E:/HeavyProjects/Lobach/Proga_s3/mp2-lab1-set/out/build/x64-Debug/test/CMakeFiles/edit_cache.dir
+E:/HeavyProjects/Lobach/Proga_s3/mp2-lab1-set/out/build/x64-Debug/test/CMakeFiles/rebuild_cache.dir

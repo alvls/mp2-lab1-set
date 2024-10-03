@@ -33,7 +33,17 @@ TEST(TBitField, can_set_bit)
 
   EXPECT_EQ(0, bf.GetBit(3));
 
+  for (int i = 0;i < bf.GetLength();i++) {
+      cout << bf.GetBit(i);
+  }
+  cout << "\n\n\n";
+
   bf.SetBit(3);
+
+  for (int i = 0;i < bf.GetLength();i++) {
+      cout << bf.GetBit(i);
+  }
+  cout << "\n\n\n";
   EXPECT_NE(0, bf.GetBit(3));
 }
 
