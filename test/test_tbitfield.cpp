@@ -33,17 +33,8 @@ TEST(TBitField, can_set_bit)
 
   EXPECT_EQ(0, bf.GetBit(3));
 
-  for (int i = 0;i < bf.GetLength();i++) {
-      cout << bf.GetBit(i);
-  }
-  cout << "\n\n\n";
-
   bf.SetBit(3);
 
-  for (int i = 0;i < bf.GetLength();i++) {
-      cout << bf.GetBit(i);
-  }
-  cout << "\n\n\n";
   EXPECT_NE(0, bf.GetBit(3));
 }
 
@@ -318,4 +309,23 @@ TEST(TBitField, bitfields_with_different_bits_are_not_equal)
   bf2.SetBit(2);
 
   EXPECT_NE(bf1, bf2);
+}
+
+TEST(TBitField, can_chain_bitfield_or_operators)
+{
+    TBitField a(5), b(5), c(5), exp(5);
+    a.SetBit(1);
+    a.SetBit(3);
+    b.SetBit(2);
+    b.SetBit(4);
+    c.SetBit(0);
+    exp = ~exp;//11111
+
+    EXPECT_EQ(a|b|c, exp);
+}
+
+TEST(TSet, check_bitfield_self_assign)
+{
+    TBitField bf(3);
+    ASSERT_NO_THROW(bf = bf);
 }

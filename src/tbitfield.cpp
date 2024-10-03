@@ -147,7 +147,6 @@ TBitField TBitField::operator|(const TBitField &bf) // операция "или"
         sf = this;
     }
     //cout << "OR SMOL MEMLEN " << sf->MemLen << endl;
-    cout << rf << endl << *sf << endl;
     for (int i = 0; i < sf->MemLen;i++) {
         //cout << "OR MEM NO " << i << endl;
         rf.pMem[i] |= (sf->pMem)[i];
@@ -169,7 +168,6 @@ TBitField TBitField::operator&(const TBitField &bf) // операция "и"
         sf = this;
     }
     //cout << "AND SMOL MEMLEN " << sf->MemLen << endl;
-    cout << rf << endl << *sf << endl;
     for (int i = 0; i < sf->MemLen;i++) {
         //cout << "AND MEM NO " << i << endl;
         rf.pMem[i] &= (sf->pMem)[i];
