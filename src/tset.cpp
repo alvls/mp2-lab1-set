@@ -100,8 +100,7 @@ int TSet::operator!=(const TSet &s) const // сравнение
 
 TSet TSet::operator+(const TSet &s) // объединение
 {
-    // TODO  объед сетов разных размеров
-    TSet tmp(s.MaxPower);
+    TSet tmp(max(s.MaxPower, MaxPower));
     tmp.BitField = BitField | s.BitField;
     return tmp;
 }

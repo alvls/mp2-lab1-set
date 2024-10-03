@@ -8,8 +8,6 @@
 #include "tbitfield.h"
 
 // Fake variables used as placeholders in tests
-static const int FAKE_INT = -1;
-static TBitField FAKE_BITFIELD(1);
 
 TBitField::TBitField(int len) : BitLen(len)
 {
@@ -150,7 +148,7 @@ TBitField TBitField::operator~(void) // отрицание
     return res;
 }
 
-// ввод/вывод TODO
+// ввод/вывод
 
 istream &operator>>(istream &istr, TBitField &bf) // ввод
 {

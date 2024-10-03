@@ -315,3 +315,10 @@ TEST(TSet, triple_union_works_properly)
 	}
 	EXPECT_EQ(res, 1);
 }
+
+TEST(TSet, can_unite_sets_of_unequal_size) {
+	TSet s1(30), s2(40);
+	s1.InsElem(29), s2.InsElem(35);
+	TSet s3 = s1 + s2;
+	EXPECT_EQ((s3).IsMember(35), 1);
+}
