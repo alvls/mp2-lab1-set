@@ -1,104 +1,112 @@
-// ННГУ, ВМК, Курс "Методы программирования-2", С++, ООП
-//
-// tset.cpp - Copyright (c) Гергель В.П. 04.10.2001
-//   Переработано для Microsoft Visual Studio 2008 Сысоевым А.В. (19.04.2015)
-//
-// Множество - реализация через битовые поля
-
 #include "tset.h"
 
-// Fake variables used as placeholders in tests
-static const int FAKE_INT = -1;
-static TBitField FAKE_BITFIELD(1);
-static TSet FAKE_SET(1);
-
-TSet::TSet(int mp) : BitField(-1)
-{
+// Конструктор с параметром maxElemCount. Инициализирует битовое поле.
+TSet::TSet(int maxElemCount) : BitField(1) {
+    MaxPower = maxElemCount; // Максимальное количество элементов
+    BitField = TBitField(maxElemCount); // Инициализация битового поля
 }
 
-// конструктор копирования
-TSet::TSet(const TSet &s) : BitField(-1)
-{
+// Конструктор копирования. Создает новый набор на основе существующего.
+TSet::TSet(const TSet& otherSet) : BitField(otherSet.BitField) {
+    MaxPower = otherSet.MaxPower; // Копируем максимальное количество элементов
+    BitField = otherSet.BitField; // Копируем битовое поле
 }
 
-// конструктор преобразования типа
-TSet::TSet(const TBitField &bf) : BitField(-1)
-{
+// Конструктор преобразования типа из TBitField в TSet.
+TSet::TSet(const TBitField& bf) : BitField(bf) {
+    MaxPower = bf.GetLength(); // Устанавливаем максимальное количество элементов на основе длины битового поля
 }
 
-TSet::operator TBitField()
-{
-    return FAKE_BITFIELD;
+// Преобразование TSet в TBitField.
+TSet::operator TBitField() {
+    return BitField; // Возвращаем битовое поле
 }
 
-int TSet::GetMaxPower(void) const // получить макс. к-во эл-тов
-{
-    return FAKE_INT;
+// Возвращает максимальное количество элементов в наборе.
+int TSet::GetMaxPower() const {
+    return MaxPower;
 }
 
-int TSet::IsMember(const int Elem) const // элемент множества?
-{
-    return FAKE_INT;
+// Проверяет, является ли элемент членом множества. Возвращает 1, если член, и 0 в противном случае.
+int TSet::IsMember(int elem) const {
+    return BitField.GetBit(elem); // Используем битовое поле для проверки принадлежности
 }
 
-void TSet::InsElem(const int Elem) // включение элемента множества
-{
+// Вставляет элемент в множество.
+void TSet::InsElem(int elem) {
+    BitField.SetBit(elem); // Устанавливаем бит в битовом поле
 }
 
-void TSet::DelElem(const int Elem) // исключение элемента множества
-{
+// Удаляет элемент из множества.
+void TSet::DelElem(int elem) {
+    BitField.ClrBit(elem); // Сбрасываем бит в битовом поле
 }
 
-// теоретико-множественные операции
+// Операции теории множеств
 
-TSet& TSet::operator=(const TSet &s) // присваивание
-{
-    return FAKE_SET;
+// Перегрузка оператора присваивания.
+TSet& TSet::operator=(const TSet& otherSet) {
+    if (this != &otherSet) { // Проверяем самоприсваивание
+        MaxPower = otherSet.MaxPower; // Копируем максимальное количество элементов
+        BitField = otherSet.BitField; // Копируем битовое поле
+    }
+    return *this; // Возвращаем текущий объект
 }
 
-int TSet::operator==(const TSet &s) const // сравнение
-{
-    return FAKE_INT;
+// Перегрузка оператора сравнения на равенство.
+int TSet::operator==(const TSet& otherSet) const {
+    return (MaxPower == otherSet.MaxPower) && (BitField == otherSet.BitField); // Сравниваем количество элементов и битовые поля
 }
 
-int TSet::operator!=(const TSet &s) const // сравнение
-{
-    return FAKE_INT;
+// Перегрузка оператора сравнения на неравенство.
+int TSet::operator!=(const TSet& otherSet) const {
+    return !(*this == otherSet); // Возвращаем противоположное значение результата сравнения
 }
 
-TSet TSet::operator+(const TSet &s) // объединение
-{
-    return FAKE_SET;
+// Перегрузка оператора сложения для объединения двух множеств.
+TSet TSet::operator+(const TSet& otherSet) {
+    int maxPower = (MaxPower > otherSet.MaxPower) ? MaxPower : otherSet.MaxPower; // Находим максимальное количество элементов
+    TSet resultSet(maxPower); // Создаем новое множество
+    resultSet.BitField = BitField | otherSet.BitField; // Устанавливаем объединение битовых полей
+    return resultSet; // Возвращаем результат
 }
 
-TSet TSet::operator+(const int Elem) // объединение с элементом
-{
-    return FAKE_SET;
+// Перегрузка оператора сложения для добавления элемента в множество.
+TSet TSet::operator+(int elem) {
+    TSet resultSet(MaxPower); // Создаем новое множество
+    resultSet.BitField.SetBit(elem); // Устанавливаем бит для нового элемента
+    return resultSet; // Возвращаем результат
 }
 
-TSet TSet::operator-(const int Elem) // разность с элементом
-{
-    return FAKE_SET;
+// Перегрузка оператора вычитания для удаления элемента из множества.
+TSet TSet::operator-(int elem) {
+    TSet resultSet(MaxPower); // Создаем новое множество
+    resultSet.BitField.ClrBit(elem); // Сбрасываем бит для элемента
+    return resultSet; // Возвращаем результат
 }
 
-TSet TSet::operator*(const TSet &s) // пересечение
-{
-    return FAKE_SET;
+// Перегрузка оператора умножения для нахождения пересечения двух множеств.
+TSet TSet::operator*(const TSet& otherSet) {
+    int maxPower = (MaxPower > otherSet.MaxPower) ? MaxPower : otherSet.MaxPower; // Находим максимальное количество элементов
+    TSet resultSet(maxPower); // Создаем новое множество
+    resultSet.BitField = BitField & otherSet.BitField; // Устанавливаем пересечение битовых полей
+    return resultSet; // Возвращаем результат
 }
 
-TSet TSet::operator~(void) // дополнение
-{
-    return FAKE_SET;
+// Перегрузка оператора инверсии для инвертирования битов множества.
+TSet TSet::operator~() {
+    TSet resultSet(MaxPower); // Создаем новое множество
+    resultSet.BitField = ~BitField; // Инвертируем биты битового поля
+    return resultSet; // Возвращаем результат
 }
 
-// перегрузка ввода/вывода
-
-istream &operator>>(istream &istr, TSet &s) // ввод
-{
-    return istr;
+// Перегрузка оператора ввода.
+std::istream& operator>>(std::istream& inStream, TSet& set) {
+    return inStream; // Возвращаем входной поток (добавьте логику для чтения, если нужно)
 }
 
-ostream& operator<<(ostream &ostr, const TSet &s) // вывод
-{
-    return ostr;
+// Перегрузка оператора вывода.
+std::ostream& operator<<(std::ostream& outStream, const TSet& set) {
+    outStream << set.BitField; // Выводим битовое поле множества
+    return outStream; // Возвращаем выходной поток
 }

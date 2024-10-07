@@ -1,0 +1,27 @@
+# ninja log v5
+9	227	7500363419253061	src/CMakeFiles/set.dir/tset.cpp.obj	265682fa94d5005
+7	447	7500343088528041	test/CMakeFiles/test_set.dir/test_tbitfield.cpp.obj	83cd692185a10813
+9	233	7500363311808658	src/CMakeFiles/set.dir/tbitfield.cpp.obj	734543b93b7954ed
+228	256	7500363419409383	lib/set.lib	67d5db055c6cd607
+4	403	7500343088055322	test/CMakeFiles/test_set.dir/test_main.cpp.obj	2506d13a61c1a2e0
+9	436	7500343088368469	test/CMakeFiles/test_set.dir/test_tset.cpp.obj	e5358c2a704b155c
+7	303	7500339781134508	samples/CMakeFiles/sample_prime_numbers.dir/sample_prime_numbers.cpp.obj	e83fb2d142ee256b
+259	333	7500342358803534	bin/sample_prime_numbers.exe	c6b8f2e83225090d
+2	856	7500343092604872	gtest/CMakeFiles/gtest.dir/gtest-all.cc.obj	1e447a043dd1608a
+857	905	7500343092915989	lib/gtest.lib	b186a86e8b5f59b1
+256	342	7500363420199297	bin/test_set.exe	2b5bc5d6f4eb3fee
+12	245	7500364803903966	src/CMakeFiles/set.dir/tbitfield.cpp.obj	734543b93b7954ed
+245	270	7500364804218303	lib/set.lib	67d5db055c6cd607
+270	360	7500364804848091	bin/test_set.exe	2b5bc5d6f4eb3fee
+1	223	7500366710733037	src/CMakeFiles/set.dir/tbitfield.cpp.obj	734543b93b7954ed
+224	253	7500366710963225	lib/set.lib	67d5db055c6cd607
+253	342	7500366711688673	bin/test_set.exe	2b5bc5d6f4eb3fee
+11	234	7500367623426299	src/CMakeFiles/set.dir/tbitfield.cpp.obj	734543b93b7954ed
+234	257	7500367623658053	lib/set.lib	67d5db055c6cd607
+258	347	7500367624328211	bin/test_set.exe	2b5bc5d6f4eb3fee
+8	227	7500368396232085	src/CMakeFiles/set.dir/tset.cpp.obj	265682fa94d5005
+228	254	7500368396468063	lib/set.lib	67d5db055c6cd607
+254	345	7500368397157169	bin/test_set.exe	2b5bc5d6f4eb3fee
+11	234	7500369157330354	src/CMakeFiles/set.dir/tbitfield.cpp.obj	734543b93b7954ed
+235	266	7500369157560609	lib/set.lib	67d5db055c6cd607
+266	351	7500369158267451	bin/test_set.exe	2b5bc5d6f4eb3fee
