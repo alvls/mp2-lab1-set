@@ -118,13 +118,22 @@ TBitField TBitField::operator|(const TBitField& bf) {
 }
 
 TBitField TBitField::operator&(const TBitField& bf) {
-    int minSize = std::min(BitLen, bf.BitLen);  // Берем минимальный размер для пересечения
-    TBitField result(minSize);  // Результат должен иметь размер минимального множества
+    int maxSize = std::max(BitLen, bf.BitLen);  // Результат будет размером максимального поля
+    TBitField result(maxSize);  // Создаем результирующее поле
 
-    for (int i = 0; i < minSize; i++) {
-        // Проверяем, что оба индекса находятся в пределах их множеств
-        if (i < BitLen && i < bf.BitLen && GetBit(i) && bf.GetBit(i)) {
-            result.SetBit(i);  // Устанавливаем бит, если он есть в обоих множествах
+    // Проходим по всем битам результирующего поля
+    for (int i = 0; i < maxSize; i++) {
+        if (i < BitLen && i < bf.BitLen) {
+            // Если бит установлен в обоих полях, устанавливаем его в результирующем
+            if (GetBit(i) && bf.GetBit(i)) {
+                result.SetBit(i);  // Устанавливаем бит
+            }
+            else {
+                result.ClrBit(i);  // Сбрасываем бит
+            }
+        }
+        else {
+            result.ClrBit(i);  // Если за пределами одного из полей, бит сбрасывается
         }
     }
 
