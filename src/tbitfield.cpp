@@ -1,3 +1,10 @@
+// ННГУ, ВМК, Курс "Методы программирования-2", С++, ООП
+//
+// tbitfield.cpp - Copyright (c) Гергель В.П. 07.05.2001
+//   Переработано для Microsoft Visual Studio 2008 Сысоевым А.В. (19.04.2015)
+//
+// Битовое поле
+
 #include "tbitfield.h"
 
 
@@ -123,8 +130,6 @@ TBitField TBitField::operator&(const TBitField& bf) {
 
     return result;
 }
-
-
 
 TBitField TBitField::operator~(void) {
     TBitField result(BitLen);
