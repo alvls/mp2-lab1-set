@@ -111,17 +111,20 @@ TBitField TBitField::operator|(const TBitField& bf) {
 }
 
 TBitField TBitField::operator&(const TBitField& bf) {
-    int maxSize = std::max(BitLen, bf.BitLen);
-    TBitField result(maxSize);
+    int minSize = std::min(BitLen, bf.BitLen);  // Берем минимальный размер для пересечения
+    TBitField result(minSize);  // Результат должен иметь размер минимального множества
 
-    for (int i = 0; i < std::min(BitLen, bf.BitLen); i++) {
-        if (GetBit(i) && bf.GetBit(i)) {
-            result.SetBit(i);  // Устанавливаем бит, если оба бита установлены
+    for (int i = 0; i < minSize; i++) {
+        // Проверяем, что оба индекса находятся в пределах их множеств
+        if (i < BitLen && i < bf.BitLen && GetBit(i) && bf.GetBit(i)) {
+            result.SetBit(i);  // Устанавливаем бит, если он есть в обоих множествах
         }
     }
 
     return result;
 }
+
+
 
 TBitField TBitField::operator~(void) {
     TBitField result(BitLen);

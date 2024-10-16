@@ -91,11 +91,11 @@ TSet TSet::operator-(const int Elem) { // Разность с элементом
     return temp;
 }
 
-TSet TSet::operator*(const TSet& s) { // Пересечение
+TSet TSet::operator*(const TSet& s) {
     int maxSize = std::max(MaxPower, s.MaxPower);
     TSet result(maxSize);
     for (int i = 0; i < maxSize; ++i) {
-        if (IsMember(i) && s.IsMember(i)) {
+        if (i < MaxPower && i < s.MaxPower && IsMember(i) && s.IsMember(i)) {
             result.InsElem(i);
         }
     }
