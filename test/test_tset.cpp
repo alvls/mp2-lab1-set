@@ -295,3 +295,17 @@ TEST(TSet, check_negation_operator)
 
   EXPECT_EQ(expSet, set1);
 }
+TEST(TSet, can_combine_three_sets_in_one_expression)
+{
+	TSet set1(10), set2(10), set3(10), expected(10);
+
+	set1.InsElem(1);
+	set2.InsElem(4);
+	set3.InsElem(7);
+
+	expected.InsElem(1);
+	expected.InsElem(4);
+	expected.InsElem(7);
+
+	EXPECT_EQ(expected, set1 + set2 + set3);
+}
