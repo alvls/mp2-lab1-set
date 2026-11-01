@@ -295,3 +295,102 @@ TEST(TSet, check_negation_operator)
 
   EXPECT_EQ(expSet, set1);
 }
+
+TEST(TSet, can_combine_three_sets)
+{
+  const int size = 6;
+  TSet set1(size), set2(size), set3(size), expSet(size);
+  // set1 = {0, 1}
+  set1.InsElem(0);
+  set1.InsElem(1);
+  // set2 = {1, 3}
+  set2.InsElem(1);
+  set2.InsElem(3);
+  // set3 = {5}
+  set3.InsElem(5);
+  // expSet = {0, 1, 3, 5}
+  expSet.InsElem(0);
+  expSet.InsElem(1);
+  expSet.InsElem(3);
+  expSet.InsElem(5);
+
+  EXPECT_EQ(expSet, set1 + set2 + set3);
+}
+
+TEST(TSet, can_intersect_three_sets)
+{
+  const int size = 6;
+  TSet set1(size), set2(size), set3(size), expSet(size);
+  // set1 = {0, 1, 2, 4}
+  set1.InsElem(0);
+  set1.InsElem(1);
+  set1.InsElem(2);
+  set1.InsElem(4);
+  // set2 = {1, 2, 4}
+  set2.InsElem(1);
+  set2.InsElem(2);
+  set2.InsElem(4);
+  // set3 = {2, 4, 5}
+  set3.InsElem(2);
+  set3.InsElem(4);
+  set3.InsElem(5);
+  // expSet = {2, 4}
+  expSet.InsElem(2);
+  expSet.InsElem(4);
+
+  EXPECT_EQ(expSet, set1 * set2 * set3);
+}
+
+TEST(TSet, can_delete_element_using_minus_operator)
+{
+  const int size = 4;
+  TSet set(size), updatedSet(size);
+  set.InsElem(1);
+  set.InsElem(2);
+  updatedSet = set - 2;
+
+  EXPECT_EQ(0, updatedSet.IsMember(2));
+  EXPECT_NE(0, updatedSet.IsMember(1));
+}
+
+TEST(TSet, throws_when_delete_element_out_of_range_using_minus_operator)
+{
+  const int size = 4;
+  TSet set(size), updatedSet(size);
+
+  ASSERT_ANY_THROW(updatedSet = set - 10);
+}
+
+TEST(TSet, throws_when_insert_element_out_of_range)
+{
+  TSet set(5);
+
+  ASSERT_ANY_THROW(set.InsElem(5));
+  ASSERT_ANY_THROW(set.InsElem(-1));
+}
+
+TEST(TSet, double_negation_gives_same_set)
+{
+  const int size = 7;
+  TSet set(size);
+  set.InsElem(0);
+  set.InsElem(3);
+  set.InsElem(6);
+
+  EXPECT_EQ(set, ~~set);
+}
+
+TEST(TSet, can_convert_set_to_bitfield_and_back)
+{
+  const int size = 5;
+  TSet set(size);
+  set.InsElem(1);
+  set.InsElem(4);
+  TBitField bf = set;
+  TSet set2(bf);
+
+  EXPECT_NE(0, bf.GetBit(1));
+  EXPECT_NE(0, bf.GetBit(4));
+  EXPECT_EQ(size, set2.GetMaxPower());
+  EXPECT_EQ(set, set2);
+}
