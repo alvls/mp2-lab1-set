@@ -309,3 +309,101 @@ TEST(TBitField, bitfields_with_different_bits_are_not_equal)
 
   EXPECT_NE(bf1, bf2);
 }
+
+TEST(TBitField, double_clear_bit_leaves_it_zero)
+{
+  TBitField bf(10);
+
+  bf.SetBit(5);
+  bf.ClrBit(5);
+  bf.ClrBit(5);
+
+  EXPECT_EQ(0, bf.GetBit(5));
+}
+
+TEST(TBitField, can_set_bits_on_border_of_mem_elements)
+{
+  const int size = 65;
+  TBitField bf(size);
+
+  bf.SetBit(31);
+  bf.SetBit(32);
+  bf.SetBit(64);
+
+  EXPECT_NE(0, bf.GetBit(31));
+  EXPECT_NE(0, bf.GetBit(32));
+  EXPECT_NE(0, bf.GetBit(64));
+  EXPECT_EQ(0, bf.GetBit(33));
+  EXPECT_EQ(0, bf.GetBit(63));
+}
+
+TEST(TBitField, copied_bitfield_is_equal_to_source)
+{
+  TBitField bf1(10);
+  bf1.SetBit(1);
+  bf1.SetBit(7);
+  TBitField bf2(bf1);
+
+  EXPECT_EQ(bf1, bf2);
+}
+
+TEST(TBitField, copied_bitfield_has_its_own_memory)
+{
+  TBitField bf1(10);
+  bf1.SetBit(1);
+  TBitField bf2(bf1);
+
+  bf2.SetBit(5);
+
+  EXPECT_EQ(0, bf1.GetBit(5));
+}
+
+TEST(TBitField, bitfields_of_different_size_are_not_equal)
+{
+  TBitField bf1(4), bf2(5);
+
+  EXPECT_NE(bf1, bf2);
+}
+
+TEST(TBitField, or_operator_applied_to_three_bitfields)
+{
+  const int size = 5;
+  TBitField bf1(size), bf2(size), bf3(size), expBf(size);
+  bf1.SetBit(0);
+  bf2.SetBit(2);
+  bf3.SetBit(4);
+
+  expBf.SetBit(0);
+  expBf.SetBit(2);
+  expBf.SetBit(4);
+
+  EXPECT_EQ(expBf, bf1 | bf2 | bf3);
+}
+
+TEST(TBitField, and_operator_applied_to_three_bitfields)
+{
+  const int size = 5;
+  TBitField bf1(size), bf2(size), bf3(size), expBf(size);
+  bf1.SetBit(1);
+  bf1.SetBit(2);
+  bf1.SetBit(3);
+  bf2.SetBit(2);
+  bf2.SetBit(3);
+  bf3.SetBit(3);
+  bf3.SetBit(4);
+
+  expBf.SetBit(3);
+
+  EXPECT_EQ(expBf, bf1 & bf2 & bf3);
+}
+
+TEST(TBitField, double_invert_gives_same_bitfield)
+{
+  const int size = 40;
+  TBitField bf(size);
+  bf.SetBit(0);
+  bf.SetBit(20);
+  bf.SetBit(39);
+
+  EXPECT_EQ(bf, ~~bf);
+}
