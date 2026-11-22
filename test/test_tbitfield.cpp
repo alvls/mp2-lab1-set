@@ -309,3 +309,31 @@ TEST(TBitField, bitfields_with_different_bits_are_not_equal)
 
   EXPECT_NE(bf1, bf2);
 }
+
+TEST(TBitField, double_clear_stays_zero) {
+    TBitField bf1(5), bf2(5);
+
+    bf1.SetBit(1);
+
+    bf1.ClrBit(1); bf1.ClrBit(1);
+    bf2.ClrBit(1); bf2.ClrBit(1);
+
+    EXPECT_EQ(0, bf1.GetBit(1));
+    EXPECT_EQ(0, bf2.GetBit(1));
+}
+
+TEST(TBitField, triple_or) {
+    TBitField bf1(5), bf2(6), bf3(7);
+
+    bf1.SetBit(1); bf2.SetBit(2); bf3.SetBit(3);
+
+    TBitField result(1);
+
+    ASSERT_NO_THROW(result = bf1 | bf2 | bf3);
+
+    TBitField expected(7);
+
+    expected.SetBit(1); expected.SetBit(2); expected.SetBit(3);
+
+    EXPECT_EQ(expected, result);
+}
