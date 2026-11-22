@@ -295,3 +295,19 @@ TEST(TSet, check_negation_operator)
 
   EXPECT_EQ(expSet, set1);
 }
+
+TEST(TSet, triple_union) {
+    TSet bf1(5), bf2(6), bf3(7);
+
+    bf1.InsElem(1); bf2.InsElem(2); bf3.InsElem(3);
+
+    TSet result(1);
+
+    ASSERT_NO_THROW(result = bf1 + bf2 + bf3);
+
+    TSet expected(7);
+
+    expected.InsElem(1); expected.InsElem(2); expected.InsElem(3);
+
+    EXPECT_EQ(expected, result);
+}
